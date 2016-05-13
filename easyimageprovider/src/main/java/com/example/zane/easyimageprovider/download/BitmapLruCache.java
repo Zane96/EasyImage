@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.LruCache;
 
 import com.example.zane.easyimageprovider.ImageCache;
+import com.example.zane.easyimageprovider.OnGetImageListener;
 import com.example.zane.easyimageprovider.download.BitmapDiskCache;
 
 /**
@@ -38,7 +39,7 @@ public final class BitmapLruCache implements ImageCache {
     }
 
     @Override
-    public Bitmap get(String url) {
+    public Bitmap get(OnGetImageListener listener, String url) {
         return lruCache.get(url);
     }
 }

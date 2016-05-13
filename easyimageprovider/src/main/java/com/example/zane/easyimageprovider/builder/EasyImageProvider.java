@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.zane.easyimageprovider.ImageCache;
 import com.example.zane.easyimageprovider.ImageProvider;
+import com.example.zane.easyimageprovider.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/5.
@@ -24,6 +25,9 @@ public class EasyImageProvider {
 
     private ImageProviderBuilder imageProviderBuilder;
     private ImageLoadBuidler imageLoadBuidler;
+
+    //开发者回调接口
+    private OnGetImageListener onGetImageListener;
 
     private Context context;
 

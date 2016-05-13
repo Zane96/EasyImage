@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import com.example.zane.easyimageprovider.ImageCache;
+import com.example.zane.easyimageprovider.OnGetImageListener;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
@@ -120,7 +121,7 @@ public final class BitmapDiskCache implements ImageCache {
     }
 
     @Override
-    public Bitmap get(String url) {
+    public Bitmap get(OnGetImageListener listener, String url) {
         String key = hashKeyForDisk(url);
         try {
             if(mDiskLruCache.get(key) == null) {

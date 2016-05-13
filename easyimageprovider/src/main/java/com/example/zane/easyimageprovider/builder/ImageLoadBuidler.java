@@ -1,6 +1,9 @@
 package com.example.zane.easyimageprovider.builder;
 
+import android.content.Context;
+
 import com.example.zane.easyimageprovider.ImageCache;
+import com.example.zane.easyimageprovider.OnGetImageListener;
 import com.example.zane.easyimageprovider.download.BitmapDiskCache;
 import com.example.zane.easyimageprovider.download.BitmapDoubleCache;
 import com.example.zane.easyimageprovider.download.BitmapLruCache;
@@ -22,6 +25,10 @@ public class ImageLoadBuidler {
 
     //缓存抽象
     ImageCache imageCache;
+    //回调抽象
+    OnGetImageListener listener;
+
+    Context context;
 
     public ImageLoadBuidler(){
 
@@ -77,6 +84,16 @@ public class ImageLoadBuidler {
         this.imageCache = imageCache;
         isCustom = true;
 
+        return this;
+    }
+
+    public ImageLoadBuidler getBitmapBack(OnGetBitmapListener listener){
+        this.listener = listener;
+        return this;
+    }
+
+    public ImageLoadBuidler with(Context context){
+        this.context = context;
         return this;
     }
 
