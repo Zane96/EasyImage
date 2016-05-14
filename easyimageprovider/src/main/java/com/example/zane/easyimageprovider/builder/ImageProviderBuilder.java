@@ -3,6 +3,7 @@ package com.example.zane.easyimageprovider.builder;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
+import com.example.zane.easyimageprovider.ImageCrop;
 import com.example.zane.easyimageprovider.ImageProvider;
 import com.example.zane.easyimageprovider.OnGetImageListener;
 import com.example.zane.easyimageprovider.provider.ImageAlbumProvider;
@@ -21,8 +22,16 @@ public class ImageProviderBuilder {
     boolean isCamera = false;
     //是否调用相册
     boolean isAlbum = false;
+    //是否返回bitmap
+    boolean isBitmapBack = false;
+    //是否返回Uri
+    boolean isUriBack = false;
+    //crop x, y
+    int outputX;
+    int outputY;
 
     ImageProvider imageProvider;
+    ImageCrop imageCrop;
     OnGetImageListener listener;
 
     Activity activity;
@@ -36,53 +45,88 @@ public class ImageProviderBuilder {
 
     /**
      * crop
-     * @param isCrop
+     * @param outputX
+     * @param outputY
      * @return
      */
-    public ImageProviderBuilder useCrop(boolean isCrop){
-        this.isCrop = isCrop;
+    public ImageProviderBuilder useCrop(int outputX, int outputY){
+        this.isCrop = true;
+        imageCrop = new ImageCropProvider();
+        this.outputX = outputX;
+        this.outputY = outputY;
+        return this;
+    }
+
+    /**
+     * custom crop
+     * 开发者的自定义剪裁类必须要继承ImageCrop接口
+     * @param imageCrop
+     * @param outputX
+     * @param outputY
+     * @return
+     */
+    public ImageProviderBuilder useCustomCrop(ImageCrop imageCrop, int outputX, int outputY){
+        this.isCrop = true;
+        this.outputX = outputX;
+        this.outputY = outputY;
         return this;
     }
 
     /**
      * camera
-     * @param isCamera
      * @return
      */
-    public ImageProviderBuilder useCamera(boolean isCamera){
-        this.isCamera = isCamera;
+    public ImageProviderBuilder useCamera(){
+        this.isCamera = true;
         imageProvider = new ImageCameraProvider();
         return this;
     }
 
     /**
      * album
-     * @param isAlbum
      * @return
      */
-    public ImageProviderBuilder userAlbum(boolean isAlbum){
-        this.isAlbum = isAlbum;
+    public ImageProviderBuilder userAlbum(){
+        this.isAlbum = true;
         imageProvider = new ImageAlbumProvider();
         return this;
     }
 
-    /**
-     * 获得bitmap返回
-     * @param listener
-     * @return
-     */
-    public ImageProviderBuilder getBitmapBack(OnGetBitmapListener listener){
-        this.listener = listener;
-        return this;
-    }
+//    /**
+//     * 获得bitmap返回
+//     * @param listener
+//     * @return
+//     */
+//    public ImageProviderBuilder getBitmapBack(OnGetBitmapListener listener){
+//        this.listener = listener;
+//        return this;
+//    }
+//
+//    /**
+//     *获得uri返回
+//     * @param listener
+//     * @return
+//     */
+//    public ImageProviderBuilder getUriBack(OnGetUriListener listener){
+//        this.listener = listener;
+//        return this;
+//    }
 
     /**
-     *获得uri返回
+     * 设置回调接口，用户设置是需要返回bitmap还是uri
+     * @param dataType "bitmap", "uri"
      * @param listener
      * @return
      */
-    public ImageProviderBuilder getUriBack(OnGetUriListener listener){
+    public ImageProviderBuilder setGetImageListener(String dataType, OnGetImageListener listener){
         this.listener = listener;
+        if (dataType.equals("bitmap")){
+            isBitmapBack = true;
+        } else if (dataType.equals("uri")){
+            isUriBack = true;
+        } else {
+            throw new IllegalArgumentException("returns the data type must be bitmap or uri!");
+        }
         return this;
     }
 

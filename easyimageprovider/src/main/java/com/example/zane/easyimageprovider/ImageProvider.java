@@ -1,5 +1,6 @@
 package com.example.zane.easyimageprovider;
 
+import android.content.Context;
 import android.content.Intent;
 
 /**
@@ -8,5 +9,5 @@ import android.content.Intent;
 public interface ImageProvider {
     Intent getIntent();
     int getRequestCode();
-    void onActivityResult(OnGetImageListener listener, int requestCode, int resultCode, Intent data);
+    void onActivityResult(Context context, boolean isBitmapBack, OnGetImageListener listener, Intent data);
 }

@@ -20,7 +20,7 @@ public class ImageLoadBuidler {
     boolean isDiskCache = false;
     //是否三级缓存
     boolean isDoubleCache = false;
-    //是否是开发者自定义
+    //是否是开发者自定义缓存模式
     boolean isCustom = false;
 
     //缓存抽象
@@ -38,11 +38,10 @@ public class ImageLoadBuidler {
 
     /**
      * LruCache
-     * @param isLruCache
      * @return
      */
-    public ImageLoadBuidler useLruCache(boolean isLruCache){
-        this.isLruCache = isLruCache;
+    public ImageLoadBuidler useLruCache(){
+        this.isLruCache = true;
         imageCache = new BitmapLruCache();
 
         return this;
@@ -50,11 +49,10 @@ public class ImageLoadBuidler {
 
     /**
      * Lru+Disk
-     * @param isDoubleCache
      * @return
      */
-    public ImageLoadBuidler useDoubleCache(boolean isDoubleCache){
-        this.isDoubleCache = isDoubleCache;
+    public ImageLoadBuidler useDoubleCache(){
+        this.isDoubleCache = true;
         imageCache = new BitmapDoubleCache();
 
         return this;
@@ -62,11 +60,10 @@ public class ImageLoadBuidler {
 
     /**
      * DiskCache
-     * @param isDiskCache
      * @return
      */
-    public ImageLoadBuidler useDiskCache(boolean isDiskCache){
-        this.isDiskCache = isDiskCache;
+    public ImageLoadBuidler useDiskCache(){
+        this.isDiskCache = true;
         imageCache = new BitmapDiskCache();
 
         return this;
@@ -87,11 +84,26 @@ public class ImageLoadBuidler {
         return this;
     }
 
-    public ImageLoadBuidler getBitmapBack(OnGetBitmapListener listener){
+//    public ImageLoadBuidler getBitmapBack(OnGetBitmapListener listener){
+//        this.listener = listener;
+//        return this;
+//    }
+
+    /**
+     * 网络图片默认是返回bitmap，就算是从内存中获得
+     * @param listener
+     * @return
+     */
+    public ImageLoadBuidler setGetImageListener(OnGetImageListener listener){
         this.listener = listener;
         return this;
     }
 
+    /**
+     *
+     * @param context
+     * @return
+     */
     public ImageLoadBuidler with(Context context){
         this.context = context;
         return this;

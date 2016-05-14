@@ -5,7 +5,6 @@ import android.util.LruCache;
 
 import com.example.zane.easyimageprovider.ImageCache;
 import com.example.zane.easyimageprovider.OnGetImageListener;
-import com.example.zane.easyimageprovider.download.BitmapDiskCache;
 
 /**
  * Created by Zane on 16/5/6.
