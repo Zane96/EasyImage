@@ -152,7 +152,7 @@ public class ImageProviderBuilder {
 
 
     //-----------------------------分割线--------------------------------------
-    public EasyImageProvider builder(){
+    public EasyImageProvider build(){
         return new EasyImageProvider(this);
     }
 

@@ -8,17 +8,20 @@ import com.example.zane.easyimageprovider.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/5.
+ * 主体类
  */
 public class EasyImageProvider {
 
-    //provider
-    boolean isCrop;
-    private boolean isFromAlbum;
-    private boolean isFromCamera;
-    //load
-    private boolean isLruCache;
-    private boolean isDiskCache;
-    private boolean isDoubleCache;
+//    //provider
+//    boolean isCrop;
+//    private boolean isFromAlbum;
+//    private boolean isFromCamera;
+//    //load
+//    private boolean isLruCache;
+//    private boolean isDiskCache;
+//    private boolean isDoubleCache;
+    private boolean isProvider = false;
+    private boolean isLoad = false;
 
     private ImageCache imageCache;
     private ImageProvider imageProvider;
@@ -33,10 +36,16 @@ public class EasyImageProvider {
 
     public EasyImageProvider(ImageProviderBuilder imageProviderBuilder){
         this.imageProviderBuilder = imageProviderBuilder;
+        isProvider = true;
     }
 
     public EasyImageProvider(ImageLoadBuidler imageLoadBuidler){
         this.imageLoadBuidler = imageLoadBuidler;
+        isLoad = true;
+    }
+
+    public void execute(){
+
     }
 
 }

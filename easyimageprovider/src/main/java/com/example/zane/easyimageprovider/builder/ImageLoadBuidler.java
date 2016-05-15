@@ -1,6 +1,7 @@
 package com.example.zane.easyimageprovider.builder;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.ImageCache;
 import com.example.zane.easyimageprovider.OnGetImageListener;
@@ -22,11 +23,18 @@ public class ImageLoadBuidler {
     boolean isDoubleCache = false;
     //是否是开发者自定义缓存模式
     boolean isCustom = false;
+    //指定的核心线程数
+    int threadCount;
+    //显示的imageview控件
+    ImageView imageView;
+    //HolderPlace图片
+
 
     //缓存抽象
     ImageCache imageCache;
     //回调抽象
     OnGetImageListener listener;
+
 
     Context context;
 
@@ -112,7 +120,7 @@ public class ImageLoadBuidler {
 
     //----------------------------------------分割线-------------------------------------------
 
-    public EasyImageProvider builder(){
+    public EasyImageProvider build(){
         return new EasyImageProvider(this);
     }
 
