@@ -1,6 +1,7 @@
 package com.example.zane.easyimageprovider.builder;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.example.zane.easyimageprovider.ImageCrop;
@@ -92,25 +93,7 @@ public class ImageProviderBuilder {
         return this;
     }
 
-//    /**
-//     * 获得bitmap返回
-//     * @param listener
-//     * @return
-//     */
-//    public ImageProviderBuilder getBitmapBack(OnGetBitmapListener listener){
-//        this.listener = listener;
-//        return this;
-//    }
-//
-//    /**
-//     *获得uri返回
-//     * @param listener
-//     * @return
-//     */
-//    public ImageProviderBuilder getUriBack(OnGetUriListener listener){
-//        this.listener = listener;
-//        return this;
-//    }
+
 
     /**
      * 设置回调接口，用户设置是需要返回bitmap还是uri
@@ -149,7 +132,6 @@ public class ImageProviderBuilder {
         this.fragment = fragment;
         return this;
     }
-
 
     //-----------------------------分割线--------------------------------------
     public EasyImageProvider build(){
