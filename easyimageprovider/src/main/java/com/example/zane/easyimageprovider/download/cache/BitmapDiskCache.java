@@ -32,8 +32,8 @@ public final class BitmapDiskCache implements ImageCache {
     private BitmapDiskCache(){
     }
 
-    public static BitmapDiskCache getInstance(Context context){
-        this.context = context;
+    public static BitmapDiskCache getInstance(Context context2){
+        context = context2;
         init();
         return SingletonHolder.instance;
     }
@@ -148,5 +148,14 @@ public final class BitmapDiskCache implements ImageCache {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void remove(String url) {
+        try {
+            mDiskLruCache.remove(hashKeyForDisk(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

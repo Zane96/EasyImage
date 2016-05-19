@@ -40,4 +40,9 @@ public final class BitmapLruCache implements ImageCache {
     public Bitmap get(OnGetImageListener listener, String url) {
         return lruCache.get(url);
     }
+
+    @Override
+    public void remove(String url) {
+        lruCache.remove(url);
+    }
 }
