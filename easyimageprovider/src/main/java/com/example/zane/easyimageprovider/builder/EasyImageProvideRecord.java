@@ -1,14 +1,8 @@
 package com.example.zane.easyimageprovider.builder;
 
-import android.content.Context;
-
-import com.example.zane.easyimageprovider.ImageCache;
-import com.example.zane.easyimageprovider.download.BitmapDiskCache;
-import com.example.zane.easyimageprovider.download.BitmapDoubleCache;
-import com.example.zane.easyimageprovider.download.BitmapLruCache;
-
 /**
  * Created by Zane on 16/5/11.
+ * imageprovider的记录类
  */
 public class EasyImageProvideRecord {
 //
@@ -47,15 +41,15 @@ public class EasyImageProvideRecord {
 //        build();
 //    }
 //
-//    public EasyImageProvider build(){
-//        //return new EasyImageProvider(this);
+//    public EasyImageProvider_chang build(){
+//        //return new EasyImageProvider_chang(this);
 //        if (isLoad){
 //            if (isDoubleCache){
-//                return new EasyImageProvider(new BitmapDoubleCache());
+//                return new EasyImageProvider_chang(new BitmapDoubleCache());
 //            } else if(isDiskCache){
-//                return new EasyImageProvider(new BitmapDiskCache());
+//                return new EasyImageProvider_chang(new BitmapDiskCache());
 //            } else if (isLruCache){
-//                return new EasyImageProvider(new BitmapLruCache());
+//                return new EasyImageProvider_chang(new BitmapLruCache());
 //            } else {
 //                throw new IllegalStateException("can't be no state from load");
 //            }

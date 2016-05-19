@@ -1,4 +1,4 @@
-package com.example.zane.easyimageprovider.download;
+package com.example.zane.easyimageprovider.download.cache;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -27,25 +27,37 @@ public final class BitmapDiskCache implements ImageCache {
     private static final long DISK_CACHE_SIZE = 1024 * 1024 * 30;
     private static Context context;
     private static DiskLruCache mDiskLruCache;
+    private static BitmapDiskCache instance;
 
-    static {
-        synchronized (BitmapDiskCache.class){
-            File file = getDiskCacheDir(context, "bitmap");
-            if (!file.exists()){
-                file.mkdirs();
-            }
+    private BitmapDiskCache(){
+    }
 
-            if (mDiskLruCache == null){
-                try {
-                    mDiskLruCache =  DiskLruCache.open(file, getAppVersion(context),
-                            1, 10 * 1024 * 1024);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    public static BitmapDiskCache getInstance(Context context){
+        this.context = context;
+        init();
+        return SingletonHolder.instance;
+    }
+
+    private static class SingletonHolder{
+        private static final BitmapDiskCache instance = new BitmapDiskCache();
+    }
+
+    //init diskcache
+    private static synchronized void init(){
+        File file = getDiskCacheDir(context, "bitmap");
+        if (!file.exists()){
+            file.mkdirs();
+        }
+
+        if (mDiskLruCache == null){
+            try {
+                mDiskLruCache =  DiskLruCache.open(file, getAppVersion(context),
+                        1, 10 * 1024 * 1024);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
-
 
     //获得文件的key，通过MD5加密文件名获得key
     private String hashKeyForDisk(String key) {

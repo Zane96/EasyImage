@@ -1,10 +1,11 @@
-package com.example.zane.easyimageprovider.download;
+package com.example.zane.easyimageprovider.download.cache;
 
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
 import com.example.zane.easyimageprovider.ImageCache;
 import com.example.zane.easyimageprovider.OnGetImageListener;
+import com.example.zane.easyimageprovider.download.cache.BitmapDiskCache;
 
 /**
  * Created by Zane on 16/5/6.
@@ -17,19 +18,17 @@ public final class BitmapLruCache implements ImageCache {
     static {
         int maxMemory = (int)(Runtime.getRuntime().maxMemory() / 1024);
         int cacheSize = maxMemory / 8;
-        synchronized (BitmapDiskCache.class){
-            lruCache = new LruCache<String, Bitmap>(cacheSize){
-                @Override
-                protected int sizeOf(String key, Bitmap value) {
-                    return value.getRowBytes() * value.getHeight() / 1024;
-                }
+        lruCache = new LruCache<String, Bitmap>(cacheSize){
+            @Override
+            protected int sizeOf(String key, Bitmap value) {
+                return value.getRowBytes() * value.getHeight() / 1024;
+            }
 
-                @Override
-                protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
-                    super.entryRemoved(evicted, key, oldValue, newValue);
-                }
-            };
-        }
+            @Override
+            protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+                super.entryRemoved(evicted, key, oldValue, newValue);
+            }
+        };
     }
 
     @Override

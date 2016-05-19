@@ -5,9 +5,9 @@ import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.ImageCache;
 import com.example.zane.easyimageprovider.OnGetImageListener;
-import com.example.zane.easyimageprovider.download.BitmapDiskCache;
-import com.example.zane.easyimageprovider.download.BitmapDoubleCache;
-import com.example.zane.easyimageprovider.download.BitmapLruCache;
+import com.example.zane.easyimageprovider.download.cache.BitmapDiskCache;
+import com.example.zane.easyimageprovider.download.cache.BitmapDoubleCache;
+import com.example.zane.easyimageprovider.download.cache.BitmapLruCache;
 
 /**
  * Created by Zane on 16/5/11.
@@ -120,8 +120,8 @@ public class ImageLoadBuidler {
 
     //----------------------------------------分割线-------------------------------------------
 
-    public EasyImageProvider build(){
-        return new EasyImageProvider(this);
-    }
+//    public EasyImageProvider_chang build(){
+//        return new EasyImageProvider_chang(this);
+//    }
 
 }

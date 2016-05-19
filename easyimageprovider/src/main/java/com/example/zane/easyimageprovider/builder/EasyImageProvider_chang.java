@@ -9,12 +9,13 @@ import android.support.v4.app.FragmentActivity;
 import com.example.zane.easyimageprovider.ImageCache;
 import com.example.zane.easyimageprovider.ImageProvider;
 import com.example.zane.easyimageprovider.OnGetImageListener;
+import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 
 /**
  * Created by Zane on 16/5/5.
  * 主体类
  */
-public class EasyImageProvider {
+public class EasyImageProvider_chang {
 
     //provider
     private boolean isFromCrop;
@@ -41,22 +42,26 @@ public class EasyImageProvider {
     //开发者回调接口
     private OnGetImageListener onGetImageListener;
 
+    private static final int REQUEST_CAMERA = ProviderRequestCode.REQUEST_CAMERA;
+    private static final int REQUEST_ALBUM = ProviderRequestCode.REQUEST_ALBUM;
+    private static final int REQUEST_CROP = ProviderRequestCode.REQUEST_CORP;
+
     private Context context;
     private Activity activity;
     private Fragment fragment;
 
-    public EasyImageProvider(ImageProviderBuilder imageProviderBuilder){
+    public EasyImageProvider_chang(ImageProviderBuilder imageProviderBuilder){
         this.imageProviderBuilder = imageProviderBuilder;
         initProvider(imageProviderBuilder);
         isProvider = true;
     }
 
-    public EasyImageProvider(ImageLoadBuidler imageLoadBuidler){
+    public EasyImageProvider_chang(ImageLoadBuidler imageLoadBuidler){
         this.imageLoadBuidler = imageLoadBuidler;
         isLoad = true;
     }
 
-    /**
+    /**q
      * provider init
      * @param imageProviderBuilder
      */
@@ -102,6 +107,7 @@ public class EasyImageProvider {
         } else {
             isUriBack = true;
         }
+
     }
 
     public void execute(){
@@ -117,7 +123,21 @@ public class EasyImageProvider {
 
     //------------------------------------provider------------------------------------------
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        imageProvider.onActivityResult(activity, isBitmapBack, onGetImageListener, data);
+        if (resultCode == activity.RESULT_OK){
+            if (onGetImageListener != null){
+                switch (requestCode){
+                    case REQUEST_CAMERA:
+
+                        break;
+                    case REQUEST_ALBUM:
+
+                        break;
+                    case REQUEST_CROP:
+
+                        break;
+                }
+            }
+        }
     }
 
 }

@@ -134,8 +134,8 @@ public class ImageProviderBuilder {
     }
 
     //-----------------------------分割线--------------------------------------
-    public EasyImageProvider build(){
-        return new EasyImageProvider(this);
-    }
+//    public EasyImageProvider_chang build(){
+//        return new EasyImageProvider_chang(this);
+//    }
 
 }
