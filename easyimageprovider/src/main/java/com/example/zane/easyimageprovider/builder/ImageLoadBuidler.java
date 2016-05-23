@@ -59,23 +59,23 @@ public class ImageLoadBuidler {
      * Lru+Disk
      * @return
      */
-    public ImageLoadBuidler useDoubleCache(){
-        this.isDoubleCache = true;
-        imageCache = new BitmapDoubleCache();
-
-        return this;
-    }
-
-    /**
-     * DiskCache
-     * @return
-     */
-    public ImageLoadBuidler useDiskCache(){
-        this.isDiskCache = true;
-        imageCache = new BitmapDiskCache();
-
-        return this;
-    }
+//    public ImageLoadBuidler useDoubleCache(){
+//        this.isDoubleCache = true;
+//        imageCache = new BitmapDoubleCache();
+//
+//        return this;
+//    }
+//
+//    /**
+//     * DiskCache
+//     * @return
+//     */
+//    public ImageLoadBuidler useDiskCache(){
+//        this.isDiskCache = true;
+//        imageCache = new BitmapDiskCache();
+//
+//        return this;
+//    }
 
     /**
      * custom cache

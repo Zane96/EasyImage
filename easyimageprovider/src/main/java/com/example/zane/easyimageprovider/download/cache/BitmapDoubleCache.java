@@ -14,7 +14,7 @@ import com.jakewharton.disklrucache.DiskLruCache;
 public final class BitmapDoubleCache implements ImageCache{
 
     private BitmapDiskCache diskLruCache;
-    private BitmapLruCache lruCache = new BitmapDiskCache();
+    private BitmapLruCache lruCache = new BitmapLruCache();
 
 
     public BitmapDoubleCache(Context context) {
@@ -29,9 +29,9 @@ public final class BitmapDoubleCache implements ImageCache{
 
     @Override
     public Bitmap get(OnGetImageListener listener, String url) {
-        Bitmap value = lruCache.get(url);
+        Bitmap value = lruCache.get(listener, url);
         if (value == null) {
-            value = diskLruCache.get(url);
+            value = diskLruCache.get(listener, url);
             saveBitmapIntoMemory(url, value);
         }
         return value;

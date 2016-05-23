@@ -35,6 +35,7 @@ public class ImageAlbumProvider implements ImageProvider{
     @Override
     public void onActivityResult(Context context, boolean isBitmapBack, OnGetImageListener listener, Intent data) {
         if (isBitmapBack){
+            Bitmap bitmap = null;
             try {
                 //获得绝对路径
                 Uri selectedImage = data.getData();
@@ -45,12 +46,12 @@ public class ImageAlbumProvider implements ImageProvider{
                 //获取照片路径
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
-                Bitmap bitmap= BitmapFactory.decodeFile(picturePath);
+                bitmap = BitmapFactory.decodeFile(picturePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            listener.getDataBack(isBitmapBack);
+            listener.getDataBack(bitmap);
         } else {
             listener.getDataBack(data.getData());
         }

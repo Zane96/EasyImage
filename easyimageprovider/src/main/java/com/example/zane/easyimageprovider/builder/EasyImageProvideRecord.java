@@ -1,63 +1,78 @@
 package com.example.zane.easyimageprovider.builder;
 
+import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
+
+import com.example.zane.easyimageprovider.ImageCrop;
+import com.example.zane.easyimageprovider.ImageProvider;
+import com.example.zane.easyimageprovider.OnGetImageListener;
+
 /**
  * Created by Zane on 16/5/11.
  * imageprovider的记录类
  */
 public class EasyImageProvideRecord {
-//
-//    //provider
-//    boolean isCrop;
-//    boolean isAlbum;
-//    boolean isCamera;
-//    //load
-//    boolean isLruCache;
-//    boolean isDiskCache;
-//    boolean isDoubleCache;
-//
-//    private ImageCache imageCache;
-//    private boolean isProvider;
-//    private boolean isLoad;
-//    Context context;
-//
-//    public EasyImageProvideRecord(ImageProviderBuilder imageProviderBuilder){
-//        isCrop = imageProviderBuilder.isCrop;
-//        isAlbum = imageProviderBuilder.isAlbum;
-//        isCamera = imageProviderBuilder.isCamera;
-//        context = imageProviderBuilder.context;
-//        isProvider = true;
-//        isLoad = false;
-//
-//        build();
-//    }
-//
-//    public EasyImageProvideRecord(ImageLoadBuidler imageLoadBuidler){
-//        isLruCache = imageLoadBuidler.isLruCache;
-//        isDiskCache = imageLoadBuidler.isDiskCache;
-//        isDoubleCache = imageLoadBuidler.isDoubleCache;
-//        isLoad = true;
-//        isProvider = false;
-//
-//        build();
-//    }
-//
-//    public EasyImageProvider_chang build(){
-//        //return new EasyImageProvider_chang(this);
-//        if (isLoad){
-//            if (isDoubleCache){
-//                return new EasyImageProvider_chang(new BitmapDoubleCache());
-//            } else if(isDiskCache){
-//                return new EasyImageProvider_chang(new BitmapDiskCache());
-//            } else if (isLruCache){
-//                return new EasyImageProvider_chang(new BitmapLruCache());
-//            } else {
-//                throw new IllegalStateException("can't be no state from load");
-//            }
-//        } else {
-//            if (isAlbum){
-//
-//            }
-//        }
-//    }
+
+    private ImageProviderBuilder imageProviderBuilder;
+    private boolean isFromCrop;
+    private boolean isFromAlbum;
+    private boolean isFromCamera;
+    public Activity activity;
+    public Fragment fragment;
+    public boolean isBitmapBack;
+    public boolean isUriBack;
+    public int outputX;
+    public int outputY;
+    public ImageProvider imageProvider;
+    public ImageCrop imageCrop;
+    public Context context;
+    public OnGetImageListener onGetImageListener;
+
+    public EasyImageProvideRecord(ImageProviderBuilder builder){
+        imageProviderBuilder = builder;
+        initParams();
+    }
+
+    private void initParams(){
+        isFromCamera = imageProviderBuilder.isCamera;
+        isFromAlbum = imageProviderBuilder.isAlbum;
+
+        if (imageProviderBuilder.isCrop){
+            isFromCrop = imageProviderBuilder.isCrop;
+            outputX = imageProviderBuilder.outputX;
+            outputY = imageProviderBuilder.outputY;
+
+            if (!(outputX > 0) || !(outputY > 0)){
+                throw new IllegalArgumentException("both of outputx and outputy cannot be negative!");
+            }
+        }
+
+        if (!(isFromAlbum || isFromCrop || isFromCamera)){
+            throw new IllegalArgumentException("none of provide way be false!");
+        }
+
+        activity = imageProviderBuilder.activity;
+        fragment = imageProviderBuilder.fragment;
+
+        if (activity == null && fragment == null){
+            throw new IllegalArgumentException("neither of provider's context be null!");
+        } else if(activity != null && fragment != null){
+            throw new IllegalArgumentException("neither of provider's context not be null!");
+        }
+
+        boolean isActivity = ((activity != null) && (fragment == null));
+        context = isActivity ? activity : fragment.getActivity();
+
+        if (imageProviderBuilder.isBitmapBack){
+            isBitmapBack = true;
+        } else {
+            isUriBack = true;
+        }
+
+        imageProvider = imageProviderBuilder.imageProvider;
+        imageCrop = imageProviderBuilder.imageCrop;
+        onGetImageListener = imageProviderBuilder.listener;
+    }
 
 }
