@@ -2,6 +2,7 @@ package com.example.zane.easyimageprovider.provider;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,12 +42,14 @@ public class ImageCropProvider implements ImageCrop{
 
     @Override
     public void onActivityResult(boolean isBitmapBack, OnGetImageListener listener, Intent data) {
-        if (isBitmapBack){
-            Bundle bundle = data.getExtras();
-            Bitmap bitmap = bundle.getParcelable("data");
-            listener.getDataBack(bitmap);
+        if (listener != null) {
+            if (isBitmapBack){
+                listener.getDataBack(BitmapFactory.decodeFile(tempFile.getPath()));
+            } else {
+                listener.getDataBack(Uri.fromFile(tempFile));
+            }
         } else {
-            listener.getDataBack(data.getData());
+            return;
         }
     }
 }

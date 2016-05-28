@@ -1,7 +1,10 @@
 package com.example.zane.easyimageprovider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
+import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
 
 /**
  * Created by Zane on 16/5/11.
@@ -9,5 +12,5 @@ import android.content.Intent;
 public interface ImageProvider {
     Intent getIntent();
     int getRequestCode();
-    void onActivityResult(Context context, boolean isBitmapBack, OnGetImageListener listener, Intent data);
+    void onActivityResult(EasyImageProvideRecord record,  Intent data);
 }

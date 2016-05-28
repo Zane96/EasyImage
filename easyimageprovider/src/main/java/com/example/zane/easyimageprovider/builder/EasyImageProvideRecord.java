@@ -42,13 +42,13 @@ public class EasyImageProvideRecord {
             isFromCrop = imageProviderBuilder.isCrop;
             outputX = imageProviderBuilder.outputX;
             outputY = imageProviderBuilder.outputY;
-
+            imageCrop = imageProviderBuilder.imageCrop;
             if (!(outputX > 0) || !(outputY > 0)){
                 throw new IllegalArgumentException("both of outputx and outputy cannot be negative!");
             }
         }
 
-        if (!(isFromAlbum || isFromCrop || isFromCamera)){
+        if (!(isFromAlbum || isFromCamera)){
             throw new IllegalArgumentException("none of provide way be false!");
         }
 
@@ -71,7 +71,6 @@ public class EasyImageProvideRecord {
         }
 
         imageProvider = imageProviderBuilder.imageProvider;
-        imageCrop = imageProviderBuilder.imageCrop;
         onGetImageListener = imageProviderBuilder.listener;
     }
 
