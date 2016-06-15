@@ -41,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
         ImageProviderBuilder builder = new ImageProviderBuilder()
                 .with(this)
                 .useCamera()
-                .setGetImageListener("uri", (uri) -> Toast.makeText(this, String.valueOf((Uri) uri), Toast.LENGTH_SHORT).show())
-                .useCrop(200, 200);
+                //.setGetImageListener("uri", (uri) -> Toast.makeText(this, String.valueOf((Uri) uri), Toast.LENGTH_SHORT).show())
+                .useCrop(200, 200)
+                //.setGetImageListener("bitmap", listener)
+                .setGetImageListener("bitmap", (bitmap) -> imageView.setImageBitmap((Bitmap)bitmap));
         EasyImageFactory factory = new ProviderFactory(builder);
         easyImage = factory.init();
         button.setOnClickListener((v) -> easyImage.execute());

@@ -48,17 +48,17 @@ public class ImageLoadBuidler {
      * LruCache
      * @return
      */
-    public ImageLoadBuidler useLruCache(){
-        this.isLruCache = true;
-        imageCache = new BitmapLruCache();
-
-        return this;
-    }
-
-    /**
-     * Lru+Disk
-     * @return
-     */
+//    public ImageLoadBuidler useLruCache(){
+//        this.isLruCache = true;
+//        imageCache = new BitmapLruCache();
+//
+//        return this;
+//    }
+//
+//    /**
+//     * Lru+Disk
+//     * @return
+//     */
 //    public ImageLoadBuidler useDoubleCache(){
 //        this.isDoubleCache = true;
 //        imageCache = new BitmapDoubleCache();
@@ -92,20 +92,16 @@ public class ImageLoadBuidler {
         return this;
     }
 
-//    public ImageLoadBuidler getBitmapBack(OnGetBitmapListener listener){
+
+//    /**
+//     * 网络图片默认是返回bitmap，就算是从内存中获得
+//     * @param listener
+//     * @return
+//     */
+//    public ImageLoadBuidler setGetImageListener(OnGetImageListener listener){
 //        this.listener = listener;
 //        return this;
 //    }
-
-    /**
-     * 网络图片默认是返回bitmap，就算是从内存中获得
-     * @param listener
-     * @return
-     */
-    public ImageLoadBuidler setGetImageListener(OnGetImageListener listener){
-        this.listener = listener;
-        return this;
-    }
 
     /**
      *
