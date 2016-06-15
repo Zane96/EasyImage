@@ -44,8 +44,10 @@ public class ImageCameraProvider implements ImageProvider{
                 } else {
                     r.onGetImageListener.getDataBack(Uri.fromFile(tempFile));
                 }
-            }else {
+            }else if (r.fragment == null){
                 r.activity.startActivityForResult(r.imageCrop.getIntent(Uri.fromFile(tempFile), r.outputX, r.outputY), r.imageCrop.getRequestCode());
+            } else {
+                r.fragment.startActivityForResult(r.imageCrop.getIntent(Uri.fromFile(tempFile), r.outputX, r.outputY), r.imageCrop.getRequestCode());
             }
         } else {
             return;

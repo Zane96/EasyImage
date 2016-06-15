@@ -59,8 +59,10 @@ public class ImageAlbumProvider implements ImageProvider{
                 } else {
                     r.onGetImageListener.getDataBack(data.getData());
                 }
-            } else {
+            } else if (r.fragment == null){
                 r.activity.startActivityForResult(r.imageCrop.getIntent(data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
+            } else {
+                r.fragment.startActivityForResult(r.imageCrop.getIntent(data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
             }
         } else {
             return;
