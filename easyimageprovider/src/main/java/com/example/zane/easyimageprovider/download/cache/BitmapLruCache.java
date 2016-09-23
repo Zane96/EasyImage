@@ -3,9 +3,7 @@ package com.example.zane.easyimageprovider.download.cache;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
-import com.example.zane.easyimageprovider.ImageCache;
-import com.example.zane.easyimageprovider.OnGetImageListener;
-import com.example.zane.easyimageprovider.download.cache.BitmapDiskCache;
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/6.

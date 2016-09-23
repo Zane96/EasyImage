@@ -1,4 +1,4 @@
-package com.example.zane.easyimageprovider;
+package com.example.zane.easyimageprovider.provider.listener;
 
 import android.net.Uri;
 

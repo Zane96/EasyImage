@@ -1,15 +1,14 @@
 package com.example.zane.easyimageprovider.builder;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import com.example.zane.easyimageprovider.ImageCrop;
-import com.example.zane.easyimageprovider.ImageProvider;
-import com.example.zane.easyimageprovider.OnGetImageListener;
-import com.example.zane.easyimageprovider.provider.ImageAlbumProvider;
-import com.example.zane.easyimageprovider.provider.ImageCameraProvider;
-import com.example.zane.easyimageprovider.provider.ImageCropProvider;
+import com.example.zane.easyimageprovider.provider.listener.ImageCrop;
+import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
+import com.example.zane.easyimageprovider.provider.provides.ImageAlbumProvider;
+import com.example.zane.easyimageprovider.provider.provides.ImageCameraProvider;
+import com.example.zane.easyimageprovider.provider.provides.ImageCropProvider;
 
 /**
  * Created by Zane on 16/5/11.

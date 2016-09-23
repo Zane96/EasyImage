@@ -1,13 +1,17 @@
 package com.example.zane.easyimageprovider.builder;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.IntegerRes;
 import android.widget.ImageView;
 
-import com.example.zane.easyimageprovider.ImageCache;
-import com.example.zane.easyimageprovider.OnGetImageListener;
 import com.example.zane.easyimageprovider.download.cache.BitmapDiskCache;
 import com.example.zane.easyimageprovider.download.cache.BitmapDoubleCache;
 import com.example.zane.easyimageprovider.download.cache.BitmapLruCache;
+import com.example.zane.easyimageprovider.download.cache.BitmapNoCache;
+import com.example.zane.easyimageprovider.download.cache.ImageCache;
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/11.
@@ -19,22 +23,20 @@ public class ImageLoadBuidler {
     boolean isLruCache = false;
     //是否使用Disk缓存
     boolean isDiskCache = false;
-    //是否三级缓存
+    //是否两层缓存
     boolean isDoubleCache = false;
     //是否是开发者自定义缓存模式
     boolean isCustom = false;
-    //指定的核心线程数
-    int threadCount;
+    //是否不使用缓存
+    boolean isNoCache = false;
     //显示的imageview控件
     ImageView imageView;
-    //HolderPlace图片
-
-
+    //占位图resID
+    int holderPlaceId = -1;
+    //错误之后的图片resid
+    int errorId = -1;
     //缓存抽象
     ImageCache imageCache;
-    //回调抽象
-    OnGetImageListener listener;
-
 
     Context context;
 
@@ -48,34 +50,49 @@ public class ImageLoadBuidler {
      * LruCache
      * @return
      */
-//    public ImageLoadBuidler useLruCache(){
-//        this.isLruCache = true;
-//        imageCache = new BitmapLruCache();
-//
-//        return this;
-//    }
-//
-//    /**
-//     * Lru+Disk
-//     * @return
-//     */
-//    public ImageLoadBuidler useDoubleCache(){
-//        this.isDoubleCache = true;
-//        imageCache = new BitmapDoubleCache();
-//
-//        return this;
-//    }
-//
-//    /**
-//     * DiskCache
-//     * @return
-//     */
-//    public ImageLoadBuidler useDiskCache(){
-//        this.isDiskCache = true;
-//        imageCache = new BitmapDiskCache();
-//
-//        return this;
-//    }
+    public ImageLoadBuidler useLruCache(){
+        this.isLruCache = true;
+        imageCache = new BitmapLruCache();
+
+        return this;
+    }
+
+    /**
+     * Lru+Disk
+     * @return
+     */
+    public ImageLoadBuidler useDoubleCache(){
+        this.isDoubleCache = true;
+
+        if (context == null) throw new IllegalStateException("with() method should invoke first!");
+        else imageCache = new BitmapDoubleCache(context);
+
+        return this;
+    }
+
+    /**
+     * DiskCache
+     * @return
+     */
+    public ImageLoadBuidler useDiskCache(){
+        this.isDiskCache = true;
+
+        if (context == null) throw new IllegalStateException("with() method should invoke first!");
+        else imageCache = BitmapDiskCache.getInstance(context);
+
+        return this;
+    }
+
+    /**
+     * no cache
+     * @return
+     */
+    public ImageLoadBuidler useNoCache(){
+        this.isNoCache = true;
+
+        imageCache = new BitmapNoCache();
+        return this;
+    }
 
     /**
      * custom cache
@@ -89,6 +106,26 @@ public class ImageLoadBuidler {
         this.imageCache = imageCache;
         isCustom = true;
 
+        return this;
+    }
+
+    /**
+     *
+     * @param holderPlace
+     * @return
+     */
+    public ImageLoadBuidler setHolderPlace(@DrawableRes int holderPlace){
+        this.holderPlaceId = holderPlace;
+        return this;
+    }
+
+    /**
+     *
+     * @param errorId
+     * @return
+     */
+    public ImageLoadBuidler setError(@DrawableRes int errorId){
+        this.errorId = errorId;
         return this;
     }
 

@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import com.example.zane.easyimageprovider.ImageCrop;
-import com.example.zane.easyimageprovider.ImageProvider;
-import com.example.zane.easyimageprovider.OnGetImageListener;
+import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
+import com.example.zane.easyimageprovider.provider.listener.ImageCrop;
+import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/11.
@@ -18,6 +19,7 @@ public class EasyImageProvideRecord {
     private boolean isFromCrop;
     private boolean isFromAlbum;
     private boolean isFromCamera;
+
     public Activity activity;
     public Fragment fragment;
     public boolean isBitmapBack;

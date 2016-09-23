@@ -1,7 +1,9 @@
-package com.example.zane.easyimageprovider;
+package com.example.zane.easyimageprovider.provider.listener;
 
 import android.content.Intent;
 import android.net.Uri;
+
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/14.

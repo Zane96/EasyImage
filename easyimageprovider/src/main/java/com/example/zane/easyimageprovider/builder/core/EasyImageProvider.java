@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
+import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 
 /**

@@ -1,7 +1,5 @@
-package com.example.zane.easyimageprovider;
+package com.example.zane.easyimageprovider.provider.listener;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
 import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;

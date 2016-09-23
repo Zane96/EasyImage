@@ -1,9 +1,5 @@
-package com.example.zane.easyimageprovider.provider;
+package com.example.zane.easyimageprovider.provider.provides;
 
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,12 +7,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.example.zane.easyimageprovider.ImageCrop;
-import com.example.zane.easyimageprovider.ImageProvider;
-import com.example.zane.easyimageprovider.OnGetImageListener;
+import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
+import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
 import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
-
-import java.io.File;
 
 /**
  * Created by Zane on 16/5/13.

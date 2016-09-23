@@ -1,16 +1,12 @@
-package com.example.zane.easyimageprovider.provider;
+package com.example.zane.easyimageprovider.provider.provides;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import com.example.zane.easyimageprovider.ImageCrop;
-import com.example.zane.easyimageprovider.ImageProvider;
-import com.example.zane.easyimageprovider.OnGetImageListener;
+import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
+import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
 import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
-import com.example.zane.easyimageprovider.utils.BitmapDecode;
 import com.example.zane.easyimageprovider.utils.TempImageFile;
 
 import java.io.File;

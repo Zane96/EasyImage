@@ -7,8 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import com.example.zane.easyimageprovider.ImageCache;
-import com.example.zane.easyimageprovider.OnGetImageListener;
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
