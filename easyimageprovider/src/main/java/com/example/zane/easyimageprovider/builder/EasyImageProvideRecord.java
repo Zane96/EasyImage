@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
+import com.example.zane.easyimageprovider.builder.record.ImageRecord;
 import com.example.zane.easyimageprovider.provider.listener.ImageCrop;
 import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
 import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
@@ -13,7 +14,7 @@ import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
  * Created by Zane on 16/5/11.
  * imageprovider的记录类
  */
-public class EasyImageProvideRecord {
+public class EasyImageProvideRecord{
 
     private ImageProviderBuilder imageProviderBuilder;
     private boolean isFromCrop;

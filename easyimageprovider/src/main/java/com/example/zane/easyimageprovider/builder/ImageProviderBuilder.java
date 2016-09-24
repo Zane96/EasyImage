@@ -17,25 +17,25 @@ import com.example.zane.easyimageprovider.provider.provides.ImageCropProvider;
 public class ImageProviderBuilder {
 
     //是否调用剪裁
-    boolean isCrop = false;
+    protected boolean isCrop = false;
     //是否调用相机
-    boolean isCamera = false;
+    protected boolean isCamera = false;
     //是否调用相册
-    boolean isAlbum = false;
+    protected boolean isAlbum = false;
     //是否返回bitmap
-    boolean isBitmapBack = false;
+    protected boolean isBitmapBack = false;
     //是否返回Uri
-    boolean isUriBack = false;
+    protected boolean isUriBack = false;
     //crop x, y
-    int outputX;
-    int outputY;
+    protected int outputX;
+    protected int outputY;
 
-    ImageProvider imageProvider;
-    ImageCrop imageCrop;
-    OnGetImageListener listener;
+    protected ImageProvider imageProvider;
+    protected ImageCrop imageCrop;
+    protected OnGetImageListener listener;
 
-    Activity activity;
-    Fragment fragment;
+    protected Activity activity;
+    protected Fragment fragment;
 
     public ImageProviderBuilder(){
 

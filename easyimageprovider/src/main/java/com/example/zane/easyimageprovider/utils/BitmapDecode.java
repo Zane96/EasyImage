@@ -4,28 +4,29 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.InputStream;
+
 /**
  * Created by Zane on 16/5/6.
  * 压缩bitmap
  */
 public final class BitmapDecode {
 
-    public Bitmap decodeRequestBitmapFromResource(Resources res, int resId
-                                                         , int requestWidth, int requestHeight){
+    public static Bitmap decodeRequestBitmapFromIs(InputStream is,  int requestWidth, int requestHeight){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         //第一次加载
-        BitmapFactory.decodeResource(res, resId, options);
+        BitmapFactory.decodeStream(is, null, options);
         //改变options的inSampleSize
         options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight);
         //重新加载一次
         options.inJustDecodeBounds = false;
-        Bitmap finalBitmap = BitmapFactory.decodeResource(res, resId, options);
+        Bitmap finalBitmap = BitmapFactory.decodeStream(is, null, options);
         return finalBitmap;
 
     }
 
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){
 
         final int oriHeight = options.outHeight;
         final int oriWidth = options.outWidth;

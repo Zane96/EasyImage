@@ -47,5 +47,4 @@ public final class BitmapDoubleCache implements ImageCache{
         diskLruCache.remove(url);
         lruCache.remove(url);
     }
-
 }

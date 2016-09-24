@@ -1,5 +1,6 @@
 package com.example.zane.easyimageprovider.download.policy;
 
+import com.example.zane.easyimageprovider.download.execute.LoadTask;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 /**

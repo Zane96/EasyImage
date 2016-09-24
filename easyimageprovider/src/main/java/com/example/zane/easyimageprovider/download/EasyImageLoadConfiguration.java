@@ -52,4 +52,16 @@ public class EasyImageLoadConfiguration {
     public void init(Application app) {
         mApplicationContext = app.getApplicationContext();
     }
+
+    public ImageLoadPolicy getLoadPolicy() {
+        return loadPolicy;
+    }
+
+    public int getThreadCount() {
+        return threadCount;
+    }
+
+    public Context getmApplicationContext() {
+        return mApplicationContext;
+    }
 }

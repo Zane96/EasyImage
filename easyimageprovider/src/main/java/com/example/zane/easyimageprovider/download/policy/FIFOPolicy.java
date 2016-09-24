@@ -1,5 +1,6 @@
 package com.example.zane.easyimageprovider.download.policy;
 
+import com.example.zane.easyimageprovider.download.execute.LoadTask;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 /**
@@ -12,6 +13,9 @@ import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 public class FIFOPolicy implements ImageLoadPolicy{
     @Override
     public int compare(BitmapRequest request1, BitmapRequest request2) {
-        return 0;
+        if (request1.ID == request2.ID){
+            throw new IllegalStateException("the ID in two imageview cann't be same!");
+        }
+        return request2.ID - request1.ID;
     }
 }

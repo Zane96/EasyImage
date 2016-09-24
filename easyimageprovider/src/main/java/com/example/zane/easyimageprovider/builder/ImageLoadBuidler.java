@@ -20,25 +20,27 @@ import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 public class ImageLoadBuidler {
 
     //是否使用Lru缓存
-    boolean isLruCache = false;
+    protected boolean isLruCache = false;
     //是否使用Disk缓存
-    boolean isDiskCache = false;
+    protected boolean isDiskCache = false;
     //是否两层缓存
-    boolean isDoubleCache = false;
+    protected boolean isDoubleCache = false;
     //是否是开发者自定义缓存模式
-    boolean isCustom = false;
+    protected boolean isCustom = false;
     //是否不使用缓存
-    boolean isNoCache = false;
+    protected boolean isNoCache = false;
     //显示的imageview控件
-    ImageView imageView;
+    protected ImageView imageView;
     //占位图resID
-    int holderPlaceId = -1;
+    protected int holderPlaceId = -1;
     //错误之后的图片resid
-    int errorId = -1;
+    protected int errorId = -1;
     //缓存抽象
-    ImageCache imageCache;
+    protected ImageCache imageCache;
+    //加载的图片uri
+    protected String uri;
 
-    Context context;
+    protected Context context;
 
     public ImageLoadBuidler(){
 
@@ -52,7 +54,6 @@ public class ImageLoadBuidler {
      */
     public ImageLoadBuidler useLruCache(){
         this.isLruCache = true;
-        imageCache = new BitmapLruCache();
 
         return this;
     }
@@ -64,9 +65,6 @@ public class ImageLoadBuidler {
     public ImageLoadBuidler useDoubleCache(){
         this.isDoubleCache = true;
 
-        if (context == null) throw new IllegalStateException("with() method should invoke first!");
-        else imageCache = new BitmapDoubleCache(context);
-
         return this;
     }
 
@@ -76,9 +74,6 @@ public class ImageLoadBuidler {
      */
     public ImageLoadBuidler useDiskCache(){
         this.isDiskCache = true;
-
-        if (context == null) throw new IllegalStateException("with() method should invoke first!");
-        else imageCache = BitmapDiskCache.getInstance(context);
 
         return this;
     }
@@ -100,9 +95,9 @@ public class ImageLoadBuidler {
      * @return
      */
     public ImageLoadBuidler useCustomCache(ImageCache imageCache){
-        if (! (imageCache instanceof ImageCache)){
-            throw new IllegalArgumentException("your custom cache must implement ImageCache");
-        }
+//        if (! (imageCache instanceof ImageCache)){
+//            throw new IllegalArgumentException("your custom cache must implement ImageCache");
+//        }
         this.imageCache = imageCache;
         isCustom = true;
 
@@ -150,6 +145,18 @@ public class ImageLoadBuidler {
         return this;
     }
 
+    public ImageLoadBuidler load(String uri){
+        this.uri = uri;
+        return this;
+    }
+
+    /**
+     *
+     * @param imageview
+     */
+    public void into(ImageView imageview){
+       this.imageView = imageview;
+    }
 
     //----------------------------------------分割线-------------------------------------------
 
