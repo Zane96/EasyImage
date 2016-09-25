@@ -3,6 +3,9 @@ package com.example.zane.easyimageprovider.download.execute;
 import com.example.zane.easyimageprovider.download.loader.LoaderManager;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
@@ -23,7 +26,7 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
     }
 
     public LoadThreadPoolExecutor(String name, int maximumPoolSize){
-        this(name, maximumPoolSize, 0, TimeUnit.SECONDS, new MyCoustomeThreadFactory(name));
+        this(maximumPoolSize, maximumPoolSize, 0, TimeUnit.SECONDS, new MyCoustomeThreadFactory(name));
     }
 
     //优先队列
@@ -45,6 +48,8 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
             this.name = name;
         }
 
+
+        //这里实际传入的是FutureTask
         @Override
         public Thread newThread(Runnable r) {
             Thread thread = new Thread(r, name + "-" + threadNum){
@@ -55,7 +60,7 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
                     super.run();
                 }
             };
-            threadNum++:
+            threadNum++;
             return thread;
         }
     }

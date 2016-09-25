@@ -18,4 +18,9 @@ public class FILOPolicy implements ImageLoadPolicy{
         }
         return request1.ID - request2.ID;
     }
+
+    @Override
+    public int compare(int policy1, int policy2) {
+        return policy1 - policy2;
+    }
 }

@@ -132,7 +132,7 @@ public final class BitmapDiskCache implements ImageCache {
     }
 
     @Override
-    public Bitmap get(OnGetImageListener listener, String url) {
+    public Bitmap get(String url) {
         String key = hashKeyForDisk(url);
         try {
             if(mDiskLruCache.get(key) == null) {

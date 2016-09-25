@@ -9,6 +9,6 @@ import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
  */
 public interface ImageCache {
     void put(String url, Bitmap bitmap);
-    Bitmap get(OnGetImageListener listener, String url);
+    Bitmap get(String url);
     void remove(String url);
 }

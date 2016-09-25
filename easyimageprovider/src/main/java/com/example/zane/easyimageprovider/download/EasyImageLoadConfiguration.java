@@ -31,6 +31,11 @@ public class EasyImageLoadConfiguration {
     /**
      * 保持单例
      */
+
+    private EasyImageLoadConfiguration(){
+
+    }
+
     private static class InstanceHolder{
         private static EasyImageLoadConfiguration instance = new EasyImageLoadConfiguration();
     }

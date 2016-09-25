@@ -26,10 +26,10 @@ public final class BitmapDoubleCache implements ImageCache{
     }
 
     @Override
-    public Bitmap get(OnGetImageListener listener, String url) {
-        Bitmap value = lruCache.get(listener, url);
+    public Bitmap get(String url) {
+        Bitmap value = lruCache.get(url);
         if (value == null) {
-            value = diskLruCache.get(listener, url);
+            value = diskLruCache.get(url);
             saveBitmapIntoMemory(url, value);
         }
         return value;

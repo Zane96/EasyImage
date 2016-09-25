@@ -1,15 +1,14 @@
 package com.example.zane.easyimageprovider.download.request;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
+import com.example.zane.easyimageprovider.download.cache.ImageCache;
 import com.example.zane.easyimageprovider.download.policy.ImageLoadPolicy;
 import com.example.zane.easyimageprovider.utils.ImageViewHelper;
 
 import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 /**
@@ -29,6 +28,10 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
     public ImageLoadPolicy policy;
     //请求ID = thread ID
     public int ID;
+    public ImageCache cache;
+    public int errorId;
+    public int placeHolderId;
+
 
     public BitmapRequest(EasyImageLoadRecord r){
         this.r = r;
@@ -44,6 +47,9 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
         // TODO: 16/9/24 防止乱序测试
         imageViewReference = new WeakReference<ImageView>(r.imageView);
         r.imageView.setTag(uri);
+        cache = r.imageCache;
+        errorId = r.errorId;
+        placeHolderId = r.holderPlaceId;
     }
 
     private String parseSchema(String uri) {

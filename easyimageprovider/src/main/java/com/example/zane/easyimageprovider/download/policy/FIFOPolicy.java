@@ -18,4 +18,9 @@ public class FIFOPolicy implements ImageLoadPolicy{
         }
         return request2.ID - request1.ID;
     }
+
+    @Override
+    public int compare(int policy1, int policy2) {
+        return policy2 - policy1;
+    }
 }

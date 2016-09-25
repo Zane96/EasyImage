@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
  * Email: zanebot96@gmail.com
  */
 
-public class BitmapCallback implements Callable<Bitmap>{
+public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
 
     private BitmapRequest request;
 
@@ -48,4 +48,8 @@ public class BitmapCallback implements Callable<Bitmap>{
         return bitmap;
     }
 
+    @Override
+    public int getPolicy() {
+        return request.ID;
+    }
 }

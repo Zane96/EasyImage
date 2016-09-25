@@ -12,23 +12,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 //策略模式的分配类
 public class LoaderManager {
 
-    private ImageLoader imageLoader;
-    private BitmapRequest request;
-    private static LoaderManager loaderManager;
+//
+//    private enum LOADER {
+//        NET(LoaderManager)
+//    }
 
-    private LoaderManager(ImageLoader imageLoader, BitmapRequest request){
-        this.imageLoader = imageLoader;
-        this.request = request;
+    private LoaderManager(){
+
     }
 
-    public static synchronized LoaderManager getInstance(ImageLoader imageLoader, BitmapRequest request){
-        if (loaderManager == null){
-            loaderManager = new LoaderManager(imageLoader, request);
-        }
-        return loaderManager;
+    private static class InstacneHolder{
+        private static final LoaderManager instance = new LoaderManager();
     }
 
-    public void loadImageView(){
+    public static LoaderManager getInstance(){
+        return InstacneHolder.instance;
+    }
+
+    public void loadImageView(ImageLoader imageLoader, BitmapRequest request){
         imageLoader.loadImage(request);
     }
 }
