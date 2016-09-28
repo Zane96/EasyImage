@@ -19,6 +19,6 @@ public class LoadFactory implements EasyImageFactory {
 
     @Override
     public EasyImage init() {
-        return new EasyImageLoad(buidler);
+        return EasyImageLoad.newInstance(buidler);
     }
 }

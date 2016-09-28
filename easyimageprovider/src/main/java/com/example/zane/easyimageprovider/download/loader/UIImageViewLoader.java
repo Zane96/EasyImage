@@ -5,11 +5,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.MainThread;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.download.cache.ImageCache;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 /**
@@ -49,8 +52,18 @@ public class UIImageViewLoader {
         }
     }
 
+    /**
+     * 存入缓存
+     * @param bitmap
+     */
     private void setInCache(Bitmap bitmap){
-        cache.put(request.uri, bitmap);
+        if (cache != null && request != null){
+            synchronized (cache){
+                cache.put(request.uri, bitmap);
+            }
+        } else {
+            Log.i("UIImageViewLoader", "cache is " + cache + " request is " + request);
+        }
     }
 
     /**
@@ -86,27 +99,33 @@ public class UIImageViewLoader {
 
     private final static class LoadHandler extends Handler{
 
-        private int errorId;
-        private int holderPlaceId;
-        private WeakReference<BitmapRequest> reference;
+        private ImageView imageView;
+        private SoftReference<BitmapRequest> reference;
+        private String url;
 
         public LoadHandler(BitmapRequest request){
             super(Looper.getMainLooper());
-            reference = new WeakReference<BitmapRequest>(request);
-            errorId = reference.get().errorId;
-            holderPlaceId = reference.get().placeHolderId;
+            reference = new SoftReference<BitmapRequest>(request);
+            imageView = reference.get().getImageView();
+            url = reference.get().uri;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
-                case LOAD:
-
-                    break;
-                case LOADING:
-                    break;
-                case ERROR:
-                    break;
+            if (reference.get() != null){
+                switch (msg.what){
+                    case LOAD:
+                        imageView.setImageBitmap((Bitmap)msg.obj);
+                        break;
+                    case LOADING:
+                        imageView.setImageResource((int)msg.obj);
+                        break;
+                    case ERROR:
+                        imageView.setImageResource((int)msg.obj);
+                        break;
+                }
+            } else {
+                Log.i("UIImageViewLoader", "reference is null");
             }
         }
     }

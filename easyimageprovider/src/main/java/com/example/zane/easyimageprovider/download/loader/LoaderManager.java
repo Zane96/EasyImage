@@ -12,13 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 //策略模式的分配类
 public class LoaderManager {
 
-//
-//    private enum LOADER {
-//        NET(LoaderManager)
-//    }
-
     private LoaderManager(){
-
     }
 
     private static class InstacneHolder{

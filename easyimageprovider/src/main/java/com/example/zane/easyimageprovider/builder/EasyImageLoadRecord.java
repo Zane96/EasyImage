@@ -1,6 +1,7 @@
 package com.example.zane.easyimageprovider.builder;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
@@ -11,6 +12,7 @@ import com.example.zane.easyimageprovider.download.cache.BitmapDoubleCache;
 import com.example.zane.easyimageprovider.download.cache.BitmapLruCache;
 import com.example.zane.easyimageprovider.download.cache.BitmapNoCache;
 import com.example.zane.easyimageprovider.download.cache.ImageCache;
+import com.example.zane.easyimageprovider.download.dispatch.DispatchConfig;
 import com.example.zane.easyimageprovider.download.policy.ImageLoadPolicy;
 
 /**
@@ -43,11 +45,10 @@ public class EasyImageLoadRecord{
     public ImageCache imageCache;
     //uri
     public String uri;
+    //file/resource
+    public String uriHead;
+    private Context context;
 
-    //------------------------------基本全局配置-------------------
-    public int threadCount;
-    public ImageLoadPolicy imageLoadPolicy;
-    public Context context;
 
     public EasyImageLoadRecord(ImageLoadBuidler builder){
         this.buidler = builder;
@@ -66,9 +67,11 @@ public class EasyImageLoadRecord{
 
         if (context == null){
             throw new IllegalStateException("with() method should be invoked first!");
+
         }
 
         if (isDiskCache && !isNoCache && !isLruCache && !isDoubleCache && !isCustom){
+
             imageCache = BitmapDiskCache.getInstance(context);
         } else if (isNoCache && !isDiskCache && !isLruCache && !isDoubleCache && !isCustom){
             imageCache = new BitmapNoCache();
@@ -76,17 +79,29 @@ public class EasyImageLoadRecord{
             imageCache = new BitmapLruCache();
         } else if (isDoubleCache && !isDiskCache && !isNoCache && !isDoubleCache && !isCustom){
             imageCache = new BitmapDoubleCache(context);
-        } else if (isCustom && !isDiskCache && !isNoCache && !isDoubleCache && !isDoubleCache){
+        } else if (isCustom && !isDiskCache && !isNoCache && !isDoubleCache && !isDoubleCache) {
             imageCache = buidler.imageCache;
         }
 
         if (buidler.imageView == null) throw new IllegalStateException("ImageView shouldn't br null");
         else imageView = buidler.imageView;
 
-        imageLoadPolicy = configuration.getLoadPolicy();
-        threadCount = configuration.getThreadCount();
-
         if (buidler.uri == null) throw new IllegalArgumentException("uri should not be null!");
         else uri = buidler.uri;
+
+        parseSchema(uri);
+    }
+
+    private void parseSchema(String uri) {
+        if (uri.contains("://")) {
+            if (uri.split("://")[0].equals("http") || uri.split("://")[0].equals("https")){
+                uriHead = DispatchConfig.NET;
+            } else {
+                uriHead = DispatchConfig.FILE;
+            }
+        } else {
+            uriHead = DispatchConfig.RESOURCE;
+        }
+        Log.i("EasyImageLoadRecord", uriHead + " uriHead in EasyImageLoadRecord");
     }
 }

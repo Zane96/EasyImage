@@ -23,9 +23,9 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
     private Reference<ImageView> imageViewReference;
 
     public String uri;
-    //https, http, uri
-    public String uriHead;
     public ImageLoadPolicy policy;
+    //非net加载的时候使用,resource/file
+    public String uriHead;
     //请求ID = thread ID
     public int ID;
     public ImageCache cache;
@@ -41,8 +41,7 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
     private void init(){
         policy = EasyImageLoadConfiguration.getInstance().getLoadPolicy();
         uri = r.uri;
-        uriHead = parseSchema(uri);
-
+        uriHead = r.uriHead;
         //防止list加载乱序
         // TODO: 16/9/24 防止乱序测试
         imageViewReference = new WeakReference<ImageView>(r.imageView);
@@ -50,14 +49,6 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
         cache = r.imageCache;
         errorId = r.errorId;
         placeHolderId = r.holderPlaceId;
-    }
-
-    private String parseSchema(String uri) {
-        if (uri.contains("://")) {
-            return uri.split("://")[0];
-        } else {
-            throw new IllegalArgumentException("uri should be right format with ://!");
-        }
     }
 
     @Override

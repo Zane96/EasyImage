@@ -1,14 +1,11 @@
 package com.example.zane.easyimageprovider.download.execute;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 import com.example.zane.easyimageprovider.utils.BitmapDecode;
 
 import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -39,7 +36,8 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
             is = new BufferedInputStream(conn.getInputStream());
-            bitmap = BitmapDecode.decodeRequestBitmapFromIs(is, request.getImageViewWidth(), request.getImageViewHeight());
+            //高效加载
+            bitmap = BitmapDecode.decodeRequestBitmap(is, request.getImageViewWidth(), request.getImageViewHeight());
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

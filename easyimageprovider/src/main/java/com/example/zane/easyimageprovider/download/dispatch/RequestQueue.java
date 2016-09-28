@@ -56,7 +56,7 @@ public class RequestQueue {
         if (!queue.contains(request)){
             queue.add(request);
         } else {
-            Log.i("EasyImageProvider", "already add to queue");
+            Log.i("RequestQueue", "already add to queue");
         }
     }
 

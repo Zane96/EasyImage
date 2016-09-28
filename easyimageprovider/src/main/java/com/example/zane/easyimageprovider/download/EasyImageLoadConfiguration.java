@@ -3,6 +3,8 @@ package com.example.zane.easyimageprovider.download;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.zane.easyimageprovider.download.dispatch.RequestDispatch;
+import com.example.zane.easyimageprovider.download.dispatch.RequestQueue;
 import com.example.zane.easyimageprovider.download.policy.FIFOPolicy;
 import com.example.zane.easyimageprovider.download.policy.ImageLoadPolicy;
 
@@ -56,6 +58,8 @@ public class EasyImageLoadConfiguration {
 
     public void init(Application app) {
         mApplicationContext = app.getApplicationContext();
+        //在这里开启队列循环
+        RequestQueue.getIstacne().start();
     }
 
     public ImageLoadPolicy getLoadPolicy() {

@@ -12,8 +12,17 @@ import java.io.InputStream;
  */
 public final class BitmapDecode {
 
-    public static Bitmap decodeRequestBitmapFromIs(InputStream is,  int requestWidth, int requestHeight){
+    /**
+     * NetLoader
+     * @param is
+     * @param requestWidth
+     * @param requestHeight
+     * @return
+     */
+    public static Bitmap decodeRequestBitmap(InputStream is, int requestWidth, int requestHeight){
         BitmapFactory.Options options = new BitmapFactory.Options();
+        final Bitmap finalBitmap;
+
         options.inJustDecodeBounds = true;
         //第一次加载
         BitmapFactory.decodeStream(is, null, options);
@@ -21,7 +30,54 @@ public final class BitmapDecode {
         options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight);
         //重新加载一次
         options.inJustDecodeBounds = false;
-        Bitmap finalBitmap = BitmapFactory.decodeStream(is, null, options);
+        finalBitmap = BitmapFactory.decodeStream(is, null, options);
+        return finalBitmap;
+
+    }
+
+    /**
+     * LocalLoader
+     * @param filePath
+     * @param requestWidth
+     * @param requestHeight
+     * @return
+     */
+    public static Bitmap decodeRequestBitmap(String filePath, int requestWidth, int requestHeight){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        final Bitmap finalBitmap;
+
+        options.inJustDecodeBounds = true;
+        //第一次加载
+        BitmapFactory.decodeFile(filePath, options);
+        //改变options的inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight);
+        //重新加载一次
+        options.inJustDecodeBounds = false;
+        finalBitmap = BitmapFactory.decodeFile(filePath, options);
+        return finalBitmap;
+
+    }
+
+    /**
+     * ResourceLoader
+     * @param r
+     * @param resId
+     * @param requestWidth
+     * @param requestHeight
+     * @return
+     */
+    public static Bitmap decodeRequestBitmap(Resources r, int resId, int requestWidth, int requestHeight){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        final Bitmap finalBitmap;
+
+        options.inJustDecodeBounds = true;
+        //第一次加载
+        BitmapFactory.decodeResource(r, resId, options);
+        //改变options的inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight);
+        //重新加载一次
+        options.inJustDecodeBounds = false;
+        finalBitmap = BitmapFactory.decodeResource(r, resId, options);
         return finalBitmap;
 
     }

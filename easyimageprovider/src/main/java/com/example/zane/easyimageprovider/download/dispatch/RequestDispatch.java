@@ -19,9 +19,6 @@ final public class RequestDispatch extends Thread{
     private RequestQueue requestQueue = RequestQueue.getIstacne();
     private BlockingQueue<BitmapRequest> queue;
 
-    private static final String FILE = "file";
-    private static final String RESOURCE = "resource";
-
     public RequestDispatch(){
         queue = requestQueue.getQueue();
     }
@@ -33,9 +30,9 @@ final public class RequestDispatch extends Thread{
             try {
                 BitmapRequest request = queue.take();
                 String uriHead = request.uriHead;
-                if (uriHead.equals(FILE)){
+                if (uriHead.equals(DispatchConfig.FILE)){
                     LoaderManager.getInstance().loadImageView(new LocalLoader(), request);
-                } else if (uriHead.equals(RESOURCE)){
+                } else if (uriHead.equals(DispatchConfig.RESOURCE)){
                     LoaderManager.getInstance().loadImageView(new ResourceLoader(), request);
                 } else {
                     throw new IllegalArgumentException("uriHeader should be file or resource in dispatchThread!");
