@@ -49,6 +49,7 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
         cache = r.imageCache;
         errorId = r.errorId;
         placeHolderId = r.holderPlaceId;
+        ID = r.ID;
     }
 
     @Override

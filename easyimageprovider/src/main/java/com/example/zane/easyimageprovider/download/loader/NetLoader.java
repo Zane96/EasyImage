@@ -31,31 +31,41 @@ public class NetLoader implements ImageLoader{
     }
 
     @Override
-    public void loadImage(BitmapRequest request) {
-
+    public void loadImage(final BitmapRequest request) {
         loader = new UIImageViewLoader(request);
-        callback = new BitmapCallback(request);
-        futureTask = new LoadTask<>(callback);
-        executor.submit(futureTask);
+        if (loader.beforeLoad()){
+            callback = new BitmapCallback(request);
+            futureTask = new LoadTask<>(callback);
+            executor.submit(futureTask);
+            Log.i("NetLoader", request.placeHolderId+" placeId");
+            loader.showLoading(request.placeHolderId);
 
-        loader.showLoading(request.placeHolderId);
-
-        try {
-            bitmap = futureTask.get();
-            if (request.getImageView() != null){
-                if (bitmap != null && request.getImageView().getTag().equals(request.uri)){
-                    //注意,这里的bitmap已经是压缩了的
-                    loader.loadImageView(bitmap);
-                } else {
-                    loader.showError(request.errorId);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = futureTask.get();
+                        Log.i("NetLoader", bitmap + " getBitmap");
+                        if (request.getImageView() != null){
+                            if (bitmap != null && request.getImageView().getTag().equals(request.uri)){
+                                //注意,这里的bitmap已经是压缩了的
+                                loader.loadImageView(bitmap);
+                            } else {
+                                Log.i("NetLoader", "error");
+                                loader.showError(request.errorId);
+                            }
+                        } else {
+                            Log.i("NetLoader", "imageview reference is null!");
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } else {
-                Log.i("NetLoader", "imageview reference is null!");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            }).start();
+        } else {
+            loader.loadImageViewInCache();
         }
     }
 }

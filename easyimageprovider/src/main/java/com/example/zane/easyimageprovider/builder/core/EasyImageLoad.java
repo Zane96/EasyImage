@@ -28,7 +28,7 @@ public class EasyImageLoad implements EasyImage {
     private ImageLoader loader;
     private BitmapRequest request;
     private static EasyImageLoad instance;
-    private static final ThreadPoolExecutor executor = new LoadThreadPoolExecutor("EasyImageProvider", EasyImageLoadConfiguration.getInstance().getThreadCount());
+    private static ThreadPoolExecutor executor = new LoadThreadPoolExecutor("EasyImageProvider", EasyImageLoadConfiguration.getInstance().getThreadCount());
 
     private EasyImageLoad(ImageLoadBuidler buidler) {
         r = new EasyImageLoadRecord(buidler);

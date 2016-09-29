@@ -15,6 +15,8 @@ import com.example.zane.easyimageprovider.download.cache.ImageCache;
 import com.example.zane.easyimageprovider.download.dispatch.DispatchConfig;
 import com.example.zane.easyimageprovider.download.policy.ImageLoadPolicy;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Created by Zane on 16/5/19.
  * load的记录和两类config判断类
@@ -34,6 +36,7 @@ public class EasyImageLoadRecord{
     private boolean isNoCache = false;
 
     private EasyImageLoadConfiguration configuration;
+    private static AtomicInteger atomicId = new AtomicInteger(0);
 
     //显示的imageview控件
     public ImageView imageView;
@@ -47,13 +50,15 @@ public class EasyImageLoadRecord{
     public String uri;
     //file/resource
     public String uriHead;
-    private Context context;
+    public Context context;
+    public int ID;
 
 
     public EasyImageLoadRecord(ImageLoadBuidler builder){
         this.buidler = builder;
         configuration = EasyImageLoadConfiguration.getInstance();
         initParams();
+        ID = atomicId.incrementAndGet();
     }
 
     private void initParams() {
@@ -66,21 +71,21 @@ public class EasyImageLoadRecord{
         context = buidler.context;
 
         if (context == null){
-            throw new IllegalStateException("with() method should be invoked first!");
-
+            throw new IllegalStateException("with() method should be invoked first! the context is null!");
         }
 
-        if (isDiskCache && !isNoCache && !isLruCache && !isDoubleCache && !isCustom){
+        Log.i("EasyImageLoadRecord", isDiskCache + " " + isNoCache + " "+isLruCache+" "+isDoubleCache+" "+isCustom);
 
+        if (isDiskCache && !isNoCache && !isLruCache && !isDoubleCache && !isCustom){
             imageCache = BitmapDiskCache.getInstance(context);
-        } else if (isNoCache && !isDiskCache && !isLruCache && !isDoubleCache && !isCustom){
-            imageCache = new BitmapNoCache();
-        } else if (isLruCache && !isDiskCache && !isNoCache && !isDoubleCache && !isCustom){
+        }else if (isLruCache && !isDiskCache && !isNoCache && !isDoubleCache && !isCustom){
             imageCache = new BitmapLruCache();
         } else if (isDoubleCache && !isDiskCache && !isNoCache && !isDoubleCache && !isCustom){
             imageCache = new BitmapDoubleCache(context);
         } else if (isCustom && !isDiskCache && !isNoCache && !isDoubleCache && !isDoubleCache) {
             imageCache = buidler.imageCache;
+        } else {
+            imageCache = new BitmapNoCache();
         }
 
         if (buidler.imageView == null) throw new IllegalStateException("ImageView shouldn't br null");
@@ -88,6 +93,9 @@ public class EasyImageLoadRecord{
 
         if (buidler.uri == null) throw new IllegalArgumentException("uri should not be null!");
         else uri = buidler.uri;
+
+        holderPlaceId = buidler.holderPlaceId;
+        errorId = buidler.errorId;
 
         parseSchema(uri);
     }

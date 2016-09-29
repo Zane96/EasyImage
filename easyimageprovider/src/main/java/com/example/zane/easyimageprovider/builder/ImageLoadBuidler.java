@@ -85,7 +85,6 @@ public class ImageLoadBuidler {
     public ImageLoadBuidler useNoCache(){
         this.isNoCache = true;
 
-        imageCache = new BitmapNoCache();
         return this;
     }
 
@@ -150,12 +149,18 @@ public class ImageLoadBuidler {
         return this;
     }
 
+    public ImageLoadBuidler load(int resId){
+        this.uri = String.valueOf(resId);
+        return this;
+    }
+
     /**
      *
      * @param imageview
      */
-    public void into(ImageView imageview){
+    public ImageLoadBuidler into(ImageView imageview){
        this.imageView = imageview;
+        return this;
     }
 
     //----------------------------------------分割线-------------------------------------------

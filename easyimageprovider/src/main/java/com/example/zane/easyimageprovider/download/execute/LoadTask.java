@@ -46,6 +46,6 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
 
     @Override
     public int hashCode() {
-        return policy * 31 + 1;
+        return policy * 31 + 17;
     }
 }

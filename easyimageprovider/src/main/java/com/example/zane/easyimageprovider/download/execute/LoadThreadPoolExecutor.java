@@ -1,5 +1,8 @@
 package com.example.zane.easyimageprovider.download.execute;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+
 import com.example.zane.easyimageprovider.download.loader.LoaderManager;
 
 import java.util.concurrent.BlockingQueue;
@@ -27,6 +30,7 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
 
     public LoadThreadPoolExecutor(String name, int maximumPoolSize){
         this(maximumPoolSize, maximumPoolSize, 0, TimeUnit.SECONDS, new MyCoustomeThreadFactory(name));
+        Log.i("LoadThreadPoolExecutor", maximumPoolSize + " thread count");
     }
 
     //优先队列

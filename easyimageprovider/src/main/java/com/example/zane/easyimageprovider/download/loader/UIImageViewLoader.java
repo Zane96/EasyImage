@@ -26,17 +26,16 @@ public class UIImageViewLoader {
     private BitmapRequest request;
     private ImageCache cache;
     private LoadHandler handler;
-    private Message message;
 
     private static final int LOAD = 1;
     private static final int LOADING = 2;
     private static final int ERROR = 3;
+    private static final int LOAD_CACHE = 4;
 
     protected UIImageViewLoader(BitmapRequest request) {
         this.request = request;
         this.cache = request.cache;
         handler = new LoadHandler(request);
-        message = new Message();
     }
 
     /**
@@ -44,6 +43,7 @@ public class UIImageViewLoader {
      * @return true表示缓存中没有,false表示缓存中有
      */
     protected boolean beforeLoad(){
+        Log.i("UIImageViewLoader", cache + " cache");
         if (cache.get(request.uri) != null){
             loadImageView(cache.get(request.uri));
             return false;
@@ -72,7 +72,19 @@ public class UIImageViewLoader {
      */
     protected void loadImageView(Bitmap bitmap){
         setInCache(bitmap);
+        final Message message = new Message();
         message.what = LOAD;
+        message.obj = bitmap;
+        handler.sendMessage(message);
+    }
+
+    /**
+     * 在缓存中加载数据
+     */
+    protected void loadImageViewInCache(){
+        final Message message = new Message();
+        final Bitmap bitmap = cache.get(request.uri);
+        message.what = LOAD_CACHE;
         message.obj = bitmap;
         handler.sendMessage(message);
     }
@@ -82,6 +94,7 @@ public class UIImageViewLoader {
      * @param id
      */
     protected void showLoading(int id){
+        final Message message = new Message();
         message.what = LOADING;
         message.obj = id;
         handler.sendMessage(message);
@@ -92,6 +105,8 @@ public class UIImageViewLoader {
      * @param id
      */
     protected void showError(int id){
+        Log.i("UIImageViewLoader", "showerror");
+        final Message message = new Message();
         message.what = ERROR;
         message.obj = id;
         handler.sendMessage(message);
@@ -113,6 +128,7 @@ public class UIImageViewLoader {
         @Override
         public void handleMessage(Message msg) {
             if (reference.get() != null){
+                Log.i("UIImageViewLoader", msg.what + " what");
                 switch (msg.what){
                     case LOAD:
                         imageView.setImageBitmap((Bitmap)msg.obj);
@@ -122,6 +138,9 @@ public class UIImageViewLoader {
                         break;
                     case ERROR:
                         imageView.setImageResource((int)msg.obj);
+                        break;
+                    case LOAD_CACHE:
+                        imageView.setImageBitmap((Bitmap)msg.obj);
                         break;
                 }
             } else {

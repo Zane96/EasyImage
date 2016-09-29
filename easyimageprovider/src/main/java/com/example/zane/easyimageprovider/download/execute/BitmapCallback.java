@@ -1,6 +1,8 @@
 package com.example.zane.easyimageprovider.download.execute;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 import com.example.zane.easyimageprovider.utils.BitmapDecode;
@@ -29,19 +31,27 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
         final URL imgURL;
         Bitmap bitmap = null;
         InputStream is = null;
+        HttpURLConnection conn = null;
         try{
             imgURL = new URL(request.uri);
-            HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
-            conn.setConnectTimeout(6000);
-            conn.setDoInput(true);
-            conn.setRequestMethod("GET");
-            is = new BufferedInputStream(conn.getInputStream());
+            Log.i("BitmapCallback", imgURL + " url");
+            conn = (HttpURLConnection) imgURL.openConnection();
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(5000);
+            //conn.setRequestMethod("GET");
+            is = conn.getInputStream();
+            Log.i("BitmapCallback", conn.getInputStream() + " is");
             //高效加载
             bitmap = BitmapDecode.decodeRequestBitmap(is, request.getImageViewWidth(), request.getImageViewHeight());
+            bitmap = BitmapFactory.decodeStream(is);
+            Log.i("BitmapCallback", bitmap + " bitmap");
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
             is.close();
+            if (conn != null){
+                conn.disconnect();
+            }
         }
         return bitmap;
     }
