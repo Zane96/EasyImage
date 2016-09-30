@@ -6,11 +6,13 @@ import android.util.Log;
 import com.example.zane.easyimageprovider.download.loader.LoaderManager;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +38,22 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
     //优先队列
     public LoadThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, ThreadFactory factory) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new PriorityBlockingQueue<Runnable>(), factory);
+    }
+
+    /**
+     * 必须重写newTaskFor()直接返回我们的自定义Task,不然默认的newTaskfor方法会把自定义Task的Compable接口实现忽略掉
+     * @param callable
+     * @param <T>
+     * @return
+     */
+    @Override
+    protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
+        return new LoadTask<>(callable);
+    }
+
+    @Override
+    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+        return new LoadTask<>(runnable, value);
     }
 
     //自定义线程工厂,设置优先级和自定义name

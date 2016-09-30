@@ -33,6 +33,7 @@ public class ImageViewHelper {
             int width = 0;
             if (params != null && params.width != ViewGroup.LayoutParams.WRAP_CONTENT) {
                 width = imageView.getWidth(); // Get actual image width
+                Log.i("ImageViewHelper", width + " width");
             }
             if (width <= 0 && params != null) {
                 width = params.width; // Get layout width parameter

@@ -29,6 +29,10 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
         policy = ((ThreadPoolQueuePolicy) callable).getPolicy();
     }
 
+    public LoadTask(Runnable runnable, Bitmap result){
+        super(runnable, result);
+    }
+
 
     @Override
     public int compareTo(LoadTask<Bitmap> another) {

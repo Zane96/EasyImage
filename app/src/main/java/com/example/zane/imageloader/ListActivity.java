@@ -27,6 +27,5 @@ public class ListActivity extends AppCompatActivity{
         adapter = new MyAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setFitsSystemWindows(true);
     }
 }

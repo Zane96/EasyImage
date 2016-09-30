@@ -42,7 +42,6 @@ public class EasyImageLoad implements EasyImage {
 
     @Override
     public void execute() {
-        request = new BitmapRequest(r);
         if (r.uriHead.equals(DispatchConfig.NET)){
             startNetLoad();
         } else {

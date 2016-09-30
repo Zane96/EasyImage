@@ -3,6 +3,7 @@ package com.example.zane.imageloader;
 import android.app.Application;
 
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
+import com.example.zane.easyimageprovider.download.policy.FIFOPolicy;
 import com.example.zane.easyimageprovider.download.policy.FILOPolicy;
 
 /**
@@ -18,7 +19,7 @@ public class App extends Application{
     public void onCreate() {
         super.onCreate();
         EasyImageLoadConfiguration.getInstance()
-                .setLoadPolicy(new FILOPolicy())
+                .setLoadPolicy(new FIFOPolicy())
                 .setThreadCount(threadCount)
                 .init(this);
     }

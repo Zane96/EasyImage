@@ -42,13 +42,15 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
             is = conn.getInputStream();
             Log.i("BitmapCallback", conn.getInputStream() + " is");
             //高效加载
-            bitmap = BitmapDecode.decodeRequestBitmap(is, request.getImageViewWidth(), request.getImageViewHeight());
+            //bitmap = BitmapDecode.decodeRequestBitmap(is, request.getImageViewWidth(), request.getImageViewHeight());
             bitmap = BitmapFactory.decodeStream(is);
             Log.i("BitmapCallback", bitmap + " bitmap");
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            is.close();
+            if (is != null){
+                is.close();
+            }
             if (conn != null){
                 conn.disconnect();
             }

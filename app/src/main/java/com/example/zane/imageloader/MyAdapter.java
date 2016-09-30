@@ -20,7 +20,6 @@ import com.example.zane.easyimageprovider.builder.factory.LoadFactory;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
     private LayoutInflater inflater;
-    private EasyImage imageLoader;
     private Context context;
 
     public MyAdapter(Context context){
@@ -36,19 +35,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ImageLoadBuidler buidler = new ImageLoadBuidler().with(context)
-                                           .load("https://avatars.githubusercontent.com/u/12124524?v=3")
+                                           .load(Data.URLS[position])
                                            .setError(R.drawable.ic_launcher)
                                            .setHolderPlace(R.drawable.ic_launcher)
-                                           .useNoCache()
+                                           .useLruCache()
                                            .into(holder.mImageView);
         EasyImageFactory factory = new LoadFactory(buidler);
-        imageLoader = factory.init();
+        EasyImage imageLoader = factory.init();
         imageLoader.execute();
     }
 
     @Override
     public int getItemCount() {
-        return 40;
+        return Data.URLS.length;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

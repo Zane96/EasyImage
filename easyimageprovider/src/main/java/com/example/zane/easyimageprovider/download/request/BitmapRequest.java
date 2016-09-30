@@ -1,5 +1,6 @@
 package com.example.zane.easyimageprovider.download.request;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
@@ -50,6 +51,8 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
         errorId = r.errorId;
         placeHolderId = r.holderPlaceId;
         ID = r.ID;
+
+        Log.i("BitmapRequest", ID + " ID");
     }
 
     @Override
