@@ -1,1 +1,1 @@
-include ':app', ':easyimageprovider'
+include ':app', ':easyimageprovider', ':sample'

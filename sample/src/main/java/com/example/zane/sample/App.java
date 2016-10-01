@@ -1,4 +1,4 @@
-package com.example.zane.imageloader;
+package com.example.zane.sample;
 
 import android.app.Application;
 
@@ -19,7 +19,7 @@ public class App extends Application{
     public void onCreate() {
         super.onCreate();
         EasyImageLoadConfiguration.getInstance()
-                .setLoadPolicy(new FIFOPolicy())
+                .setLoadPolicy(new FILOPolicy())
                 .setThreadCount(threadCount)
                 .init(this);
     }

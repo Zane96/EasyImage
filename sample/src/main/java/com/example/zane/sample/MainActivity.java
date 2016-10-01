@@ -1,18 +1,18 @@
-package com.example.zane.imageloader;
+package com.example.zane.sample;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
 import com.example.zane.easyimageprovider.builder.core.EasyImage;
 import com.example.zane.easyimageprovider.builder.factory.EasyImageFactory;
 import com.example.zane.easyimageprovider.builder.factory.ProviderFactory;
-import com.example.zane.sample.ListActivity;
+import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,18 +39,33 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         ImageProviderBuilder builder = new ImageProviderBuilder()
-                .with(this)
-                .useCamera()
-                //.setGetImageListener("uri", (uri) -> Toast.makeText(this, String.valueOf((Uri) uri), Toast.LENGTH_SHORT).show())
-                .useCrop(200, 200)
-                //.setGetImageListener("bitmap", listener)
-                .setGetImageListener("bitmap", (bitmap) -> imageViewProvide.setImageBitmap((Bitmap)bitmap));
+                                               .with(this)
+                                               .useCamera()
+                                               //.setGetImageListener("uri", (uri) -> Toast.makeText(this, String.valueOf((Uri) uri), Toast.LENGTH_SHORT).show())
+                                               .useCrop(200, 200)
+                                               //.setGetImageListener("bitmap", listener)
+                                               .setGetImageListener("bitmap", listener);
         EasyImageFactory factory = new ProviderFactory(builder);
         easyImageProvider = factory.init();
-        buttonProvide.setOnClickListener((v) -> easyImageProvider.execute());
+        buttonProvide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                easyImageProvider.execute();
+            }
+        });
 
-        mButton.setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, ListActivity.class)));
-        mButton2.setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, DisplayActivity.class)));
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ListActivity.class));
+            }
+        });
+        mButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, DisplayActivity.class));
+            }
+        });
 
 //        //-----------------------------------Load---------------------
 //        ImageLoadBuidler buidlerLoad = new ImageLoadBuidler()

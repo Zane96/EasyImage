@@ -1,11 +1,12 @@
-package com.example.zane.imageloader;
+package com.example.zane.sample;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+
+
 
 /**
  * Created by Zane on 16/9/29.
@@ -25,7 +26,7 @@ public class ListActivity extends AppCompatActivity{
 
         layoutManager = new LinearLayoutManager(this);
         adapter = new MyAdapter(this);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }

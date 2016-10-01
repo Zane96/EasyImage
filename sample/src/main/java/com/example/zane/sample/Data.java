@@ -1,4 +1,4 @@
-package com.example.zane.imageloader;
+package com.example.zane.sample;
 
 /**
  * Created by Zane on 16/9/30.
