@@ -42,13 +42,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         Log.i("MyAdapter", position + " position");
         ImageLoadBuidler buidler = new ImageLoadBuidler().with(context)
                                            .load(Data.URLS[position])
-                                           .setError(R.drawable.ic_launcher)
+                                           .setError(R.drawable.avatar)
                                            .setHolderPlace(R.drawable.ic_launcher)
-                                           .useNoCache()
+                                           .useDiskCache()
                                            .into(holder.mImageView);
         factory = new LoadFactory(buidler);
         easyImage = factory.init();
         easyImage.execute();
+
+//        Glide.with(context)
+//                .load(Data.URLS[position])
+//                .placeholder(R.drawable.ic_launcher)
+//                .error(R.drawable.avatar)
+//                .into(holder.mImageView);
     }
 
     @Override

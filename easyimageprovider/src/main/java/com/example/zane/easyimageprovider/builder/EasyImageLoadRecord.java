@@ -59,7 +59,7 @@ public class EasyImageLoadRecord{
         configuration = EasyImageLoadConfiguration.getInstance();
         initParams();
         ID = atomicId.incrementAndGet();
-
+        Log.i("EasyImageLoadRecord", ID + " ID in LoadRecord");
     }
 
     private void initParams() {

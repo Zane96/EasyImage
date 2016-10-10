@@ -70,6 +70,7 @@ public final class BitmapDiskCache implements ImageCache {
         }
         return cacheKey;
     }
+
     //将字节流组装成字符串
     private String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
@@ -114,7 +115,7 @@ public final class BitmapDiskCache implements ImageCache {
         try {
             if(mDiskLruCache.get(key) == null){
                 DiskLruCache.Editor editor = mDiskLruCache.edit(key);
-                if(editor == null) {
+                if(editor != null) {
                     OutputStream outputStream = editor.newOutputStream(0);
                     //压缩质量
                     if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)) {

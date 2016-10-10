@@ -1,5 +1,7 @@
 package com.example.zane.easyimageprovider.download.execute;
 
+import android.util.Log;
+
 import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
@@ -27,15 +29,21 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
             throw new IllegalArgumentException("callable should be implements ThreadPoolQueuePolicy!");
         }
         policy = ((ThreadPoolQueuePolicy) callable).getPolicy();
+        Log.i("LoadTask", policy + " ID 1");
     }
 
     public LoadTask(Runnable runnable, Bitmap result){
         super(runnable, result);
+        if (!(runnable instanceof Comparable)){
+            throw new IllegalArgumentException("runnable should be implements Comparable!");
+        }
+
     }
 
 
     @Override
     public int compareTo(LoadTask<Bitmap> another) {
+        Log.i("LoadTask", policy + " ID 2");
         return EasyImageLoadConfiguration.getInstance().getLoadPolicy().compare(policy, another.policy);
     }
 

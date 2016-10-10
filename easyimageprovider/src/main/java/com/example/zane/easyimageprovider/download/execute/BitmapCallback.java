@@ -60,6 +60,7 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
 
     @Override
     public int getPolicy() {
+        Log.i("BitmapCallback", request.ID+" ID");
         return request.ID;
     }
 }

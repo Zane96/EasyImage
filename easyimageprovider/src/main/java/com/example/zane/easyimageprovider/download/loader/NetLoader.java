@@ -10,6 +10,7 @@ import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 import com.example.zane.easyimageprovider.utils.BitmapDecode;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -21,7 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class NetLoader implements ImageLoader{
 
     private BitmapCallback callback;
-    private LoadTask<Bitmap> futureTask;
+    private Future<Bitmap> future;
     private ThreadPoolExecutor executor;
     private Bitmap bitmap;
     private UIImageViewLoader loader;
@@ -35,8 +36,7 @@ public class NetLoader implements ImageLoader{
         loader = new UIImageViewLoader(request);
         if (loader.beforeLoad()){
             callback = new BitmapCallback(request);
-            futureTask = new LoadTask<>(callback);
-            executor.submit(futureTask);
+            future = executor.submit(callback);
             Log.i("NetLoader", request.placeHolderId+" placeId");
             loader.showLoading(request.placeHolderId);
 
@@ -44,14 +44,17 @@ public class NetLoader implements ImageLoader{
                 @Override
                 public void run() {
                     try {
-                        bitmap = futureTask.get();
+                        bitmap = future.get();
                         Log.i("NetLoader", bitmap + " getBitmap");
                         if (request.getImageView() != null){
-                            if (bitmap != null && request.getImageView().getTag().equals(request.uri)){
+                            if (bitmap != null){
                                 //注意,这里的bitmap已经是压缩了的
                                 loader.loadImageView(bitmap);
+                            } else if (!request.getImageView().getTag().equals(request.uri)) {
+                                //防止Recycleview的回收机制导致显示了错误图片
+                                loader.showLoading(request.placeHolderId);
                             } else {
-                                Log.i("NetLoader", "error");
+                                Log.i("NetLoader", "error " + request.getImageView().getTag().equals(request.uri));
                                 loader.showError(request.errorId);
                             }
                         } else {

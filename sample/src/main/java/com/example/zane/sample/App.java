@@ -19,8 +19,8 @@ public class App extends Application{
     public void onCreate() {
         super.onCreate();
         EasyImageLoadConfiguration.getInstance()
-                .setLoadPolicy(new FILOPolicy())
-                .setThreadCount(threadCount)
+                .setLoadPolicy(new FIFOPolicy())
+                .setThreadCount(10)
                 .init(this);
     }
 }

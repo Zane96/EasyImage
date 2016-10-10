@@ -1,5 +1,7 @@
 package com.example.zane.easyimageprovider.download.policy;
 
+import android.util.Log;
+
 import com.example.zane.easyimageprovider.download.execute.LoadTask;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
@@ -16,11 +18,13 @@ public class FILOPolicy implements ImageLoadPolicy{
         if (request1.ID == request2.ID){
             throw new IllegalStateException("the ID in two imageview cann't be same!");
         }
-        return request1.ID - request2.ID;
+        Log.i("FILOPolicy", request1.ID + " " + request2.ID);
+        return request2.ID - request1.ID;
     }
 
     @Override
     public int compare(int policy1, int policy2) {
-        return policy1 - policy2;
+        Log.i("FILOPolicy", "policy " + policy1 + " " + policy2);
+        return policy2 - policy1;
     }
 }

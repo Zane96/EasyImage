@@ -1,6 +1,7 @@
 package com.example.zane.easyimageprovider.builder.core;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
@@ -39,7 +40,6 @@ public class EasyImageLoad implements EasyImage {
         return new EasyImageLoad(buidler);
     }
 
-
     @Override
     public void execute() {
         if (r.uriHead.equals(DispatchConfig.NET)){
@@ -55,6 +55,7 @@ public class EasyImageLoad implements EasyImage {
     private void startNetLoad(){
         loader = new NetLoader(executor);
         LoaderManager.getInstance().loadImageView(loader, request);
+        Log.i("EasyImageLoad", request.ID + " ID");
     }
 
     /**
