@@ -1,11 +1,13 @@
 package com.example.zane.easyimageprovider.provider.provides;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
@@ -16,9 +18,14 @@ import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
  */
 public class ImageAlbumProvider implements ImageProvider{
 
+    private Context context;
+
     @Override
-    public Intent getIntent() {
+    public Intent getIntent(Context context) {
+        this.context = context;
+        Log.i("ImageAlbumProvider", context + " getIntent context");
         Intent intent = new Intent("android.intent.action.PICK");
+        //这里不用做7.0的兼容,已经是content:///
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         return intent;
     }
@@ -53,9 +60,10 @@ public class ImageAlbumProvider implements ImageProvider{
                     r.onGetImageListener.getDataBack(data.getData());
                 }
             } else if (r.fragment == null){
-                r.activity.startActivityForResult(r.imageCrop.getIntent(data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
+                Log.i("ImageAlbumProvider", context + " context");
+                r.activity.startActivityForResult(r.imageCrop.getIntent(context, data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
             } else {
-                r.fragment.startActivityForResult(r.imageCrop.getIntent(data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
+                r.fragment.startActivityForResult(r.imageCrop.getIntent(context, data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
             }
         } else {
             return;

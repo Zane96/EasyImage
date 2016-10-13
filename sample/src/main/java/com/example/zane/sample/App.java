@@ -20,7 +20,7 @@ public class App extends Application{
         super.onCreate();
         EasyImageLoadConfiguration.getInstance()
                 .setLoadPolicy(new FIFOPolicy())
-                .setThreadCount(10)
+                .setThreadCount(threadCount)
                 .init(this);
     }
 }

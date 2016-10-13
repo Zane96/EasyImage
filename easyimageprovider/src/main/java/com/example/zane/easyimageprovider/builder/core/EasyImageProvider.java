@@ -29,10 +29,10 @@ public class EasyImageProvider implements EasyImage {
     public void execute() {
 
         if (r.activity != null){
-            r.activity.startActivityForResult(r.imageProvider.getIntent(), r.imageProvider.getRequestCode());
+            r.activity.startActivityForResult(r.imageProvider.getIntent(r.context), r.imageProvider.getRequestCode());
         } else {
             r.activity = r.fragment.getActivity();
-            r.fragment.startActivityForResult(r.imageProvider.getIntent(), r.imageProvider.getRequestCode());
+            r.fragment.startActivityForResult(r.imageProvider.getIntent(r.context), r.imageProvider.getRequestCode());
         }
 
     }

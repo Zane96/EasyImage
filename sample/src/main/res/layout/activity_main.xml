@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -17,21 +13,29 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
+        android:id="@+id/button_camera"
         android:layout_below="@id/imageview"
-        android:text="执行相机相册拍照获取图片"/>
+        android:text="拍照获取图片"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跳转"
-        android:layout_marginTop="20dp"
-        android:id="@+id/button2"
-        android:layout_below="@id/button"/>
+        android:id="@+id/button_album"
+        android:layout_toRightOf="@id/button_camera"
+        android:layout_below="@id/imageview"
+        android:text="相册获取图片"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跳转"
+        android:text="recycleview加载图片"
+        android:layout_marginTop="20dp"
+        android:id="@+id/button2"
+        android:layout_below="@id/button_camera"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="普通加载图片"
         android:layout_marginTop="20dp"
         android:id="@+id/button3"
         android:layout_below="@id/button2"/>

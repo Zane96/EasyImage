@@ -27,8 +27,8 @@ public class ImageProviderBuilder {
     //是否返回Uri
     protected boolean isUriBack = false;
     //crop x, y
-    protected int outputX;
-    protected int outputY;
+    protected int outputX = 200;
+    protected int outputY = 200;
 
     protected ImageProvider imageProvider;
     protected ImageCrop imageCrop;
@@ -86,7 +86,7 @@ public class ImageProviderBuilder {
      * album
      * @return
      */
-    public ImageProviderBuilder userAlbum(){
+    public ImageProviderBuilder useAlbum(){
         this.isAlbum = true;
         imageProvider = new ImageAlbumProvider();
         return this;

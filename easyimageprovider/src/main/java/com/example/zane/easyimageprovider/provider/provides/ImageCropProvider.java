@@ -1,14 +1,19 @@
 package com.example.zane.easyimageprovider.provider.provides;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 
+import com.example.zane.easyimageprovider.BuildConfig;
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 import com.example.zane.easyimageprovider.provider.listener.ImageCrop;
 import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 import com.example.zane.easyimageprovider.utils.TempImageFile;
+import com.example.zane.easyimageprovider.utils.UriShemeChanger;
 
 import java.io.File;
 
@@ -18,10 +23,13 @@ import java.io.File;
 public class ImageCropProvider implements ImageCrop{
 
     private File tempFile;
+    private Uri contentUri;
 
     @Override
-    public Intent getIntent(Uri uri, int x, int y) {
+    public Intent getIntent(Context context, Uri uri, int x, int y) {
         tempFile = TempImageFile.createTempImageFile();
+        contentUri = UriShemeChanger.FileUri2ContentUri(context, tempFile);
+        Log.i("ImageCrop", uri + " uri");
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", true);
@@ -30,6 +38,8 @@ public class ImageCropProvider implements ImageCrop{
         intent.putExtra("aspectY", 1);
         intent.putExtra("outputX", x);
         intent.putExtra("outputY", y);
+        intent.putExtra("scale", true);
+        //注意
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
         return intent;
     }

@@ -54,7 +54,7 @@ public class DisplayActivity extends AppCompatActivity{
         for (int i = 0; i < 7; i++){
             ImageLoadBuidler buidler = new ImageLoadBuidler()
                     .with(this)
-                    .useNoCache()
+                    .useLruCache()
                     .setHolderPlace(R.drawable.ic_launcher)
                     .setError(R.drawable.ic_launcher)
                     .load(Data.URLS[i])

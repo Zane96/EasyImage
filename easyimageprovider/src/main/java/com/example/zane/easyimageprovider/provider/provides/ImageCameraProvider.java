@@ -1,13 +1,18 @@
 package com.example.zane.easyimageprovider.provider.provides;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 
+import com.example.zane.easyimageprovider.BuildConfig;
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
 import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
 import com.example.zane.easyimageprovider.utils.TempImageFile;
+import com.example.zane.easyimageprovider.utils.UriShemeChanger;
 
 import java.io.File;
 
@@ -17,12 +22,19 @@ import java.io.File;
 public class ImageCameraProvider implements ImageProvider{
 
     private File tempFile;
+    private Uri contentUri;
+    private Context context;
 
     @Override
-    public Intent getIntent() {
+    public Intent getIntent(Context context) {
+        this.context = context;
         tempFile = TempImageFile.createTempImageFile();
+        Log.i("ImageCameraProvider", tempFile.getPath() + " path1");
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra("output", Uri.fromFile(tempFile));
+        //兼容7.0 api
+        contentUri = UriShemeChanger.FileUri2ContentUri(context, tempFile);
+        //intent.putExtra("output", Uri.fromFile(tempFile));
+        intent.putExtra("output", contentUri);
         return intent;
     }
 
@@ -38,12 +50,13 @@ public class ImageCameraProvider implements ImageProvider{
                 if (r.isBitmapBack){
                     r.onGetImageListener.getDataBack(BitmapFactory.decodeFile(tempFile.getPath()));
                 } else {
-                    r.onGetImageListener.getDataBack(Uri.fromFile(tempFile));
+                    r.onGetImageListener.getDataBack(contentUri);
                 }
             }else if (r.fragment == null){
-                r.activity.startActivityForResult(r.imageCrop.getIntent(Uri.fromFile(tempFile), r.outputX, r.outputY), r.imageCrop.getRequestCode());
+                Log.i("ImageCameraProvider", context + " context");
+                r.activity.startActivityForResult(r.imageCrop.getIntent(context, contentUri, r.outputX, r.outputY), r.imageCrop.getRequestCode());
             } else {
-                r.fragment.startActivityForResult(r.imageCrop.getIntent(Uri.fromFile(tempFile), r.outputX, r.outputY), r.imageCrop.getRequestCode());
+                r.fragment.startActivityForResult(r.imageCrop.getIntent(context, contentUri, r.outputX, r.outputY), r.imageCrop.getRequestCode());
             }
         } else {
             return;

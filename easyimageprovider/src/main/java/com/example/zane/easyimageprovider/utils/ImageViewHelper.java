@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  * Email: zanebot96@gmail.com
  */
 
-public class ImageViewHelper {
+public final class ImageViewHelper {
 
     private static int DEFAULT_WIDTH = 200;
     private static int DEFAULT_HEIGHT = 200;
