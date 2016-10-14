@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
-import com.example.zane.easyimageprovider.builder.record.ImageRecord;
 import com.example.zane.easyimageprovider.provider.listener.ImageCrop;
 import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
 import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;

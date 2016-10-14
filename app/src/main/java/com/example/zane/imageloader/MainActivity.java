@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.zane.easyimageprovider.builder.core.EasyImageIn;
 import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
-import com.example.zane.easyimageprovider.builder.core.EasyImage;
 import com.example.zane.easyimageprovider.builder.factory.EasyImageFactory;
 import com.example.zane.easyimageprovider.builder.factory.ProviderFactory;
 import com.example.zane.sample.ListActivity;
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonProvide;
     private ImageView imageViewProvide;
-    private EasyImage easyImageProvider;
+    private EasyImageIn easyImageInProvider;
     private Button mButton;
     private Button mButton2;
 
@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 //.setGetImageListener("bitmap", listener)
                 .setGetImageListener("bitmap", (bitmap) -> imageViewProvide.setImageBitmap((Bitmap)bitmap));
         EasyImageFactory factory = new ProviderFactory(builder);
-        easyImageProvider = factory.init();
-        buttonProvide.setOnClickListener((v) -> easyImageProvider.execute());
+        easyImageInProvider = factory.init();
+        buttonProvide.setOnClickListener((v) -> easyImageInProvider.execute());
 
         mButton.setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, ListActivity.class)));
         mButton2.setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, DisplayActivity.class)));
@@ -69,6 +69,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        easyImageProvider.onActivityResult(requestCode, resultCode, data);
+        easyImageInProvider.onActivityResult(requestCode, resultCode, data);
     }
 }

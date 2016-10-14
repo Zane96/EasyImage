@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
 import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
-import com.example.zane.easyimageprovider.builder.record.ImageRecord;
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 
 /**
@@ -15,13 +13,13 @@ import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
  * Email: zanebot96@gmail.com
  */
 
-public class EasyImageProvider implements EasyImage {
+public final class EasyImageInProvider implements EasyImageIn {
 
-    private static final String TAG = "EasyImageProvider";
+    private static final String TAG = "EasyImageInProvider";
 
     private EasyImageProvideRecord r;
 
-    public EasyImageProvider(ImageProviderBuilder builder) {
+    public EasyImageInProvider(ImageProviderBuilder builder) {
         r = new EasyImageProvideRecord(builder);
     }
 

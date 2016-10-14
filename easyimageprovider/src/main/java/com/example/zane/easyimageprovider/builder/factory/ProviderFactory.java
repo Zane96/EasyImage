@@ -1,7 +1,7 @@
 package com.example.zane.easyimageprovider.builder.factory;
 
-import com.example.zane.easyimageprovider.builder.core.EasyImage;
-import com.example.zane.easyimageprovider.builder.core.EasyImageProvider;
+import com.example.zane.easyimageprovider.builder.core.EasyImageIn;
+import com.example.zane.easyimageprovider.builder.core.EasyImageInProvider;
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
 
 /**
@@ -18,7 +18,7 @@ public class ProviderFactory implements EasyImageFactory {
     }
 
     @Override
-    public EasyImage init() {
-        return new EasyImageProvider(builder);
+    public EasyImageIn init() {
+        return new EasyImageInProvider(builder);
     }
 }

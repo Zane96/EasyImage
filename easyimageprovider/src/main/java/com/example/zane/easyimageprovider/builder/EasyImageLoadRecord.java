@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
-import com.example.zane.easyimageprovider.builder.record.ImageRecord;
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
 import com.example.zane.easyimageprovider.download.cache.BitmapDiskCache;
 import com.example.zane.easyimageprovider.download.cache.BitmapDoubleCache;
@@ -13,7 +11,6 @@ import com.example.zane.easyimageprovider.download.cache.BitmapLruCache;
 import com.example.zane.easyimageprovider.download.cache.BitmapNoCache;
 import com.example.zane.easyimageprovider.download.cache.ImageCache;
 import com.example.zane.easyimageprovider.download.dispatch.DispatchConfig;
-import com.example.zane.easyimageprovider.download.policy.ImageLoadPolicy;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

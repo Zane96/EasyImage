@@ -1,4 +1,4 @@
-package com.example.zane.easyimageprovider.builder.record;
+package com.example.zane.easyimageprovider.builder;
 
 /**
  * Created by Zane on 16/9/24.

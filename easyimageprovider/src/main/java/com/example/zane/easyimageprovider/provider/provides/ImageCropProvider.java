@@ -28,7 +28,7 @@ public class ImageCropProvider implements ImageCrop{
     @Override
     public Intent getIntent(Context context, Uri uri, int x, int y) {
         tempFile = TempImageFile.createTempImageFile();
-        contentUri = UriShemeChanger.FileUri2ContentUri(context, tempFile);
+        //contentUri = UriShemeChanger.FileUri2ContentUri(context, tempFile);
         Log.i("ImageCrop", uri + " uri");
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -39,7 +39,7 @@ public class ImageCropProvider implements ImageCrop{
         intent.putExtra("outputX", x);
         intent.putExtra("outputY", y);
         intent.putExtra("scale", true);
-        //注意
+        //注意这里crop不能提供content uri,不然会报安全异常(提示FileProvider的exported不为true,本来也不应该为true)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
         return intent;
     }

@@ -4,7 +4,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Zane on 16/5/6.
@@ -19,20 +23,49 @@ public final class BitmapDecode {
      * @param requestHeight
      * @return
      */
-    public static Bitmap decodeRequestBitmap(InputStream is, int requestWidth, int requestHeight){
+    public static Bitmap decodeRequestBitmap(InputStream inputStream, InputStream finalStream, int requestWidth, int requestHeight){
         BitmapFactory.Options options = new BitmapFactory.Options();
         final Bitmap finalBitmap;
 
-        options.inJustDecodeBounds = true;
-        //第一次加载
-        BitmapFactory.decodeStream(is, null, options);
-        //改变options的inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight);
-        //重新加载一次
-        options.inJustDecodeBounds = false;
-        finalBitmap = BitmapFactory.decodeStream(is, null, options);
-        return finalBitmap;
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, options);
 
+
+            options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight);
+            options.inJustDecodeBounds = false;
+
+            finalBitmap = BitmapFactory.decodeStream(finalStream, null, options);
+
+            return finalBitmap;
+    }
+
+    /**
+     * 将InputStream转换成byte数组
+     * @param in InputStream
+     * @return byte[]
+     * @throws IOException
+     */
+    public static byte[] InputStreamTOByte(InputStream in) throws IOException{
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] data = new byte[1024*16];
+        int count = -1;
+        while((count = in.read(data,0,1024*16)) != -1)
+            outStream.write(data, 0, count);
+
+        data = null;
+        return outStream.toByteArray();
+    }
+
+    /**
+     * 将byte数组转换成InputStream
+     * @param in
+     * @return
+     * @throws Exception
+     */
+    public static InputStream byteTOInputStream(byte[] in) throws Exception{
+        ByteArrayInputStream is = new ByteArrayInputStream(in);
+        return is;
     }
 
     /**

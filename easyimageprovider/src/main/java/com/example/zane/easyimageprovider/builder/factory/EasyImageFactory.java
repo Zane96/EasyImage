@@ -1,6 +1,6 @@
 package com.example.zane.easyimageprovider.builder.factory;
 
-import com.example.zane.easyimageprovider.builder.core.EasyImage;
+import com.example.zane.easyimageprovider.builder.core.EasyImageIn;
 
 /**
  * Created by Zane on 16/5/19.
@@ -8,5 +8,5 @@ import com.example.zane.easyimageprovider.builder.core.EasyImage;
  */
 
 public interface EasyImageFactory {
-    EasyImage init();
+    EasyImageIn init();
 }

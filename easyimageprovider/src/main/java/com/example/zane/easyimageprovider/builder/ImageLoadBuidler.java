@@ -2,16 +2,9 @@ package com.example.zane.easyimageprovider.builder;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntegerRes;
 import android.widget.ImageView;
 
-import com.example.zane.easyimageprovider.download.cache.BitmapDiskCache;
-import com.example.zane.easyimageprovider.download.cache.BitmapDoubleCache;
-import com.example.zane.easyimageprovider.download.cache.BitmapLruCache;
-import com.example.zane.easyimageprovider.download.cache.BitmapNoCache;
 import com.example.zane.easyimageprovider.download.cache.ImageCache;
-import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 
 /**
  * Created by Zane on 16/5/11.

@@ -2,7 +2,6 @@ package com.example.zane.sample;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
 import com.example.zane.easyimageprovider.builder.ImageProviderBuilder;
 import com.example.zane.easyimageprovider.builder.core.EasyImage;
+import com.example.zane.easyimageprovider.builder.core.EasyImageIn;
 import com.example.zane.easyimageprovider.builder.factory.EasyImageFactory;
 import com.example.zane.easyimageprovider.builder.factory.ProviderFactory;
 import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
@@ -22,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonCamera;
     private Button buttonAlbum;
     private ImageView imageViewProvide;
-    private EasyImage easyImageProvider;
     private Button mButton;
     private Button mButton2;
+
+    private EasyImage easyImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 initCamera();
-                easyImageProvider.execute();
+                easyImage.execute();
             }
         });
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 initAlbum();
-                easyImageProvider.execute();
+                easyImage.execute();
             }
         });
 
@@ -68,46 +68,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 相册中获取图片
+     */
     private void initAlbum(){
-        ImageProviderBuilder buidler = new ImageProviderBuilder()
-                .with(this)
-                .useAlbum()
-                .useCrop(500, 500)
-                .setGetImageListener("bitmap", new OnGetImageListener() {
-                    @Override
-                    public void getDataBack(Object o) {
-                        imageViewProvide.setImageBitmap((Bitmap) o);
-                    }
-                });
-
-        EasyImageFactory factory = new ProviderFactory(buidler);
-        easyImageProvider = factory.init();
-
+        easyImage = EasyImage.creat(new ImageProviderBuilder().with(this).useAlbum().useCrop(500,500)
+            .setGetImageListener("bitmap", new OnGetImageListener() {
+                @Override
+                public void getDataBack(Object o) {
+                   imageViewProvide.setImageBitmap((Bitmap) o);
+             }
+        }));
     }
 
+    /**
+     * 相机中获取图片
+     */
     private void initCamera() {
-        OnGetImageListener<Bitmap> listener = new OnGetImageListener<Bitmap>() {
-            @Override
-            public void getDataBack(Bitmap bitmap) {
-                Log.i("MainActivity2", bitmap + " bitmap");
-                imageViewProvide.setImageBitmap(bitmap);
-            }
-        };
-        ImageProviderBuilder builder = new ImageProviderBuilder()
-                                               .with(this)
-                                               .useCamera()
-                                               //.setGetImageListener("uri", (uri) -> Toast.makeText(this, String.valueOf((Uri) uri), Toast.LENGTH_SHORT).show())
-                                               .useCrop(500, 500)
-                                               //.setGetImageListener("bitmap", (bitmap) -> imageViewProvide.setImageBitmap((Bitmap)bitmap));
-                                                .setGetImageListener("bitmap", listener);
-
-        EasyImageFactory factory = new ProviderFactory(builder);
-        easyImageProvider = factory.init();
+        easyImage = EasyImage.creat(new ImageProviderBuilder().with(this).useCamera().useCrop(500,500)
+            .setGetImageListener("bitmap", new OnGetImageListener() {
+                @Override
+                public void getDataBack(Object o) {
+                    imageViewProvide.setImageBitmap((Bitmap) o);
+                }
+            }));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        easyImageProvider.onActivityResult(requestCode, resultCode, data);
+        easyImage.onActivityResult(requestCode, resultCode, data);
     }
 }

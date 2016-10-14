@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
 import com.example.zane.easyimageprovider.builder.core.EasyImage;
+import com.example.zane.easyimageprovider.builder.core.EasyImageIn;
 import com.example.zane.easyimageprovider.builder.factory.EasyImageFactory;
 import com.example.zane.easyimageprovider.builder.factory.LoadFactory;
 
@@ -18,8 +18,6 @@ import com.example.zane.easyimageprovider.builder.factory.LoadFactory;
 
 public class DisplayActivity extends AppCompatActivity{
 
-    private EasyImage easyImage;
-    private EasyImageFactory factory;
     private ImageView image1;
     private ImageView image2;
     private ImageView image3;
@@ -52,16 +50,12 @@ public class DisplayActivity extends AppCompatActivity{
         images[6] = image7;
 
         for (int i = 0; i < 7; i++){
-            ImageLoadBuidler buidler = new ImageLoadBuidler()
-                    .with(this)
-                    .useLruCache()
-                    .setHolderPlace(R.drawable.ic_launcher)
-                    .setError(R.drawable.ic_launcher)
-                    .load(Data.URLS[i])
-                    .into(images[i]);
-            factory = new LoadFactory(buidler);
-            easyImage = factory.init();
-            easyImage.execute();
+            EasyImage.creat(new ImageLoadBuidler().with(this)
+                                    .useLruCache()
+                                    .setHolderPlace(R.drawable.ic_launcher)
+                                    .setError(R.drawable.avatar)
+                                    .load(Data.URLS[i])
+                                    .into(images[i])).execute();
         }
     }
 }

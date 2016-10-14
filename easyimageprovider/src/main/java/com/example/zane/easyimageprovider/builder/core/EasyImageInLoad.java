@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
-import com.example.zane.easyimageprovider.builder.core.EasyImage;
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
 import com.example.zane.easyimageprovider.download.dispatch.DispatchConfig;
 import com.example.zane.easyimageprovider.download.dispatch.RequestQueue;
@@ -15,7 +14,6 @@ import com.example.zane.easyimageprovider.download.loader.LoaderManager;
 import com.example.zane.easyimageprovider.download.loader.NetLoader;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -23,21 +21,21 @@ import java.util.concurrent.ThreadPoolExecutor;
  * Email: zanebot96@gmail.com
  */
 
-public class EasyImageLoad implements EasyImage {
+public final class EasyImageInLoad implements EasyImageIn {
 
     private EasyImageLoadRecord r;
     private ImageLoader loader;
     private BitmapRequest request;
-    private static EasyImageLoad instance;
-    private static ThreadPoolExecutor executor = new LoadThreadPoolExecutor("EasyImageProvider", EasyImageLoadConfiguration.getInstance().getThreadCount());
+    private static EasyImageInLoad instance;
+    private static ThreadPoolExecutor executor = new LoadThreadPoolExecutor("EasyImageInProvider", EasyImageLoadConfiguration.getInstance().getThreadCount());
 
-    private EasyImageLoad(ImageLoadBuidler buidler) {
+    private EasyImageInLoad(ImageLoadBuidler buidler) {
         r = new EasyImageLoadRecord(buidler);
         request = new BitmapRequest(r);
     }
 
-    public static EasyImageLoad newInstance(ImageLoadBuidler buidler){
-        return new EasyImageLoad(buidler);
+    public static EasyImageInLoad newInstance(ImageLoadBuidler buidler){
+        return new EasyImageInLoad(buidler);
     }
 
     @Override
@@ -55,7 +53,7 @@ public class EasyImageLoad implements EasyImage {
     private void startNetLoad(){
         loader = new NetLoader(executor);
         LoaderManager.getInstance().loadImageView(loader, request);
-        Log.i("EasyImageLoad", request.ID + " ID");
+        Log.i("EasyImageInLoad", request.ID + " ID");
     }
 
     /**

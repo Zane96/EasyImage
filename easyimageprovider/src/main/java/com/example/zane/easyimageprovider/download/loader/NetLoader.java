@@ -37,7 +37,6 @@ public class NetLoader implements ImageLoader{
         if (loader.beforeLoad()){
             callback = new BitmapCallback(request);
             future = executor.submit(callback);
-            Log.i("NetLoader", request.placeHolderId+" placeId");
             loader.showLoading(request.placeHolderId);
 
             new Thread(new Runnable() {
