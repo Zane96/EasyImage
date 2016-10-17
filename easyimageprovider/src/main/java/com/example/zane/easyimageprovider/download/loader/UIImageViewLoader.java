@@ -2,12 +2,10 @@ package com.example.zane.easyimageprovider.download.loader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.text.LocaleDisplayNames;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.MainThread;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -18,12 +16,9 @@ import com.example.zane.easyimageprovider.download.execute.ContainerDrawable;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 import java.io.Serializable;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 /**
@@ -32,11 +27,11 @@ import java.util.concurrent.Future;
  */
 
 //渲染以及
-public class UIImageViewLoader {
+class UIImageViewLoader {
 
-    private BitmapRequest request;
-    private ImageCache cache;
-    private LoadHandler handler;
+    private final BitmapRequest request;
+    private final ImageCache cache;
+    private final LoadHandler handler;
 
     private static final int LOAD = 1;
     private static final int LOADING = 2;
@@ -46,7 +41,7 @@ public class UIImageViewLoader {
     private static final String LOADING_ID = "loading_id";
     private static final String LOADING_CONTAINER = "loading_container";
 
-    protected UIImageViewLoader(BitmapRequest request) {
+    UIImageViewLoader(BitmapRequest request) {
         this.request = request;
         this.cache = request.cache;
         handler = new LoadHandler(request);
@@ -56,7 +51,7 @@ public class UIImageViewLoader {
      * 在load之前调用
      * @return true表示缓存中没有,false表示缓存中有
      */
-    protected boolean beforeLoad(){
+    boolean beforeLoad(){
         Log.i("UIImageViewLoader", cache + " cache");
         if (cache.get(request.uri) != null){
             loadImageView(cache.get(request.uri));
@@ -84,7 +79,7 @@ public class UIImageViewLoader {
      * load完毕之后调用,用来渲染
      * @param bitmap
      */
-    protected void loadImageView(Bitmap bitmap){
+    void loadImageView(Bitmap bitmap){
         setInCache(bitmap);
         final Message message = new Message();
         message.what = LOAD;
@@ -95,7 +90,7 @@ public class UIImageViewLoader {
     /**
      * 在缓存中加载数据
      */
-    protected void loadImageViewInCache(){
+    void loadImageViewInCache(){
         final Message message = new Message();
         final Bitmap bitmap = cache.get(request.uri);
         message.what = LOAD_CACHE;
@@ -107,7 +102,7 @@ public class UIImageViewLoader {
      * 加载过程中调用,显示占位图
      * @param id
      */
-    protected void showLoading(Map<BitmapCallback, Future> container, int id){
+    void showLoading(Map<BitmapCallback, Future> container, int id){
         final Message message = new Message();
         Bundle bundle = new Bundle();
         message.what = LOADING;
@@ -121,7 +116,7 @@ public class UIImageViewLoader {
      * 加载错误的时候调用,显示错误图片
      * @param id
      */
-    protected void showError(int id){
+    void showError(int id){
         Log.i("UIImageViewLoader", "showerror");
         final Message message = new Message();
         message.what = ERROR;
@@ -131,15 +126,13 @@ public class UIImageViewLoader {
 
     private final static class LoadHandler extends Handler{
 
-        private ImageView imageView;
-        private WeakReference<BitmapRequest> reference;
-        private String url;
+        private final ImageView imageView;
+        private final WeakReference<BitmapRequest> reference;
 
         public LoadHandler(BitmapRequest request){
             super(Looper.getMainLooper());
             reference = new WeakReference<BitmapRequest>(request);
             imageView = reference.get().getImageView();
-            url = reference.get().uri;
         }
 
         //loading的时候,将map<Callable, Future>注入到loading的Drawable里面去

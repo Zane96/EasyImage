@@ -25,7 +25,7 @@ public class ImageProviderBuilder {
     //是否返回bitmap
     protected boolean isBitmapBack = false;
     //是否返回Uri
-    protected boolean isUriBack = false;
+    private boolean isUriBack = false;
     //crop x, y
     protected int outputX = 200;
     protected int outputY = 200;
@@ -102,12 +102,15 @@ public class ImageProviderBuilder {
      */
     public ImageProviderBuilder setGetImageListener(String dataType, OnGetImageListener listener){
         this.listener = listener;
-        if (dataType.equals("bitmap")){
-            isBitmapBack = true;
-        } else if (dataType.equals("uri")){
-            isUriBack = true;
-        } else {
-            throw new IllegalArgumentException("returns the data type must be bitmap or uri!");
+        switch (dataType) {
+            case "bitmap":
+                isBitmapBack = true;
+                break;
+            case "uri":
+                isUriBack = true;
+                break;
+            default:
+                throw new IllegalArgumentException("returns the data type must be bitmap or uri!");
         }
         return this;
     }

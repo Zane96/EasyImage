@@ -20,20 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class EasyImageLoadRecord{
 
-    private ImageLoadBuidler buidler;
-    //是否使用Lru缓存
-    private boolean isLruCache = false;
-    //是否使用Disk缓存
-    private boolean isDiskCache = false;
-    //是否两层缓存
-    private boolean isDoubleCache = false;
-    //是否是开发者自定义缓存模式
-    private boolean isCustom = false;
-    //是否不使用缓存
-    private boolean isNoCache = false;
-
-    private EasyImageLoadConfiguration configuration;
-    private static AtomicInteger atomicId = new AtomicInteger(0);
+    private final ImageLoadBuidler buidler;
+    private static final AtomicInteger atomicId = new AtomicInteger(0);
+    private Context context;
 
     //显示的imageview控件
     public ImageView imageView;
@@ -47,19 +36,29 @@ public class EasyImageLoadRecord{
     public String uri;
     //file/resource
     public String uriHead;
-    public Context context;
-    public int ID;
+    public final int ID;
 
 
     public EasyImageLoadRecord(ImageLoadBuidler builder){
         this.buidler = builder;
-        configuration = EasyImageLoadConfiguration.getInstance();
+        EasyImageLoadConfiguration configuration = EasyImageLoadConfiguration.getInstance();
         initParams();
+
         ID = atomicId.incrementAndGet();
-        Log.i("EasyImageLoadRecord", ID + " ID in LoadRecord");
     }
 
     private void initParams() {
+
+        //是否使用Lru缓存
+        boolean isLruCache = false;
+        //是否使用Disk缓存
+        boolean isDiskCache = false;
+        //是否两层缓存
+        boolean isDoubleCache = false;
+        //是否是开发者自定义缓存模式
+        boolean isCustom = false;
+        //是否不使用缓存
+        boolean isNoCache = false;
 
         isDiskCache = buidler.isDiskCache;
         isCustom = buidler.isCustom;

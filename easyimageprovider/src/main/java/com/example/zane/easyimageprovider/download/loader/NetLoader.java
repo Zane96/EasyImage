@@ -2,22 +2,16 @@ package com.example.zane.easyimageprovider.download.loader;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.telecom.Call;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.zane.easyimageprovider.download.execute.BitmapCallback;
 import com.example.zane.easyimageprovider.download.execute.ContainerDrawable;
-import com.example.zane.easyimageprovider.download.execute.LoadTask;
-import com.example.zane.easyimageprovider.download.execute.LoadThreadPoolExecutor;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
-import com.example.zane.easyimageprovider.utils.BitmapDecode;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -31,14 +25,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 //网络加载类
 public class NetLoader implements ImageLoader{
 
-    private BitmapCallback callback;
+
     private Future<Bitmap> future;
-    private ThreadPoolExecutor executor;
+    private final ThreadPoolExecutor executor;
     private Bitmap bitmap;
     private UIImageViewLoader loader;
 
     private Thread startLoader;
-    private Map<BitmapCallback, Future> container;
+    private final Map<BitmapCallback, Future> container;
 
     public NetLoader(ThreadPoolExecutor executorService){
         executor = executorService;
@@ -54,7 +48,7 @@ public class NetLoader implements ImageLoader{
     private void startTask(final BitmapRequest request) {
         if (cancelBeforeTask(request.uri, request.getImageView())){
             if (loader.beforeLoad()) {
-                callback = new BitmapCallback(request);
+                BitmapCallback callback = new BitmapCallback(request);
                 future = executor.submit(callback);
                 container.put(callback, future);
 
@@ -134,8 +128,7 @@ public class NetLoader implements ImageLoader{
     private Map<BitmapCallback, Future> getContainer(ImageView imageview){
         Drawable drawable = imageview.getDrawable();
         if (drawable instanceof ContainerDrawable){
-            Map<BitmapCallback, Future> container = ((ContainerDrawable) drawable).getContainerMap();
-            return container;
+            return ((ContainerDrawable) drawable).getContainerMap();
         }
         return null;
     }

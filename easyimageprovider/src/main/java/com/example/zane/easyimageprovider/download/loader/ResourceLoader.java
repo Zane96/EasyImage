@@ -13,11 +13,9 @@ import com.example.zane.easyimageprovider.utils.BitmapDecode;
 
 public class ResourceLoader implements ImageLoader{
 
-    private UIImageViewLoader loader;
-
     @Override
     public void loadImage(BitmapRequest request) {
-        loader = new UIImageViewLoader(request);
+        UIImageViewLoader loader = new UIImageViewLoader(request);
         loader.showLoading(null, request.placeHolderId);
         final Context context = EasyImageLoadConfiguration.getInstance().getmApplicationContext();
 

@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Created by Zane on 16/5/6.
@@ -64,8 +63,7 @@ public final class BitmapDecode {
      * @throws Exception
      */
     public static InputStream byteTOInputStream(byte[] in) throws Exception{
-        ByteArrayInputStream is = new ByteArrayInputStream(in);
-        return is;
+        return new ByteArrayInputStream(in);
     }
 
     /**

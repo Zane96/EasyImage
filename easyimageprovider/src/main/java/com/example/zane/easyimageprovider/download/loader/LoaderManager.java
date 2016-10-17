@@ -2,8 +2,6 @@ package com.example.zane.easyimageprovider.download.loader;
 
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * Created by Zane on 16/9/24.
  * Email: zanebot96@gmail.com

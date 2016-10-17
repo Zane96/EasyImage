@@ -6,7 +6,6 @@ import com.example.zane.easyimageprovider.download.loader.ResourceLoader;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Zane on 16/9/24.
@@ -14,12 +13,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 //请求队列的事件分发线程,这里分发的是本地或者resource中加载的图片
-final public class RequestDispatch extends Thread{
+public final class RequestDispatch extends Thread{
 
-    private RequestQueue requestQueue = RequestQueue.getIstacne();
-    private BlockingQueue<BitmapRequest> queue;
+    private final BlockingQueue<BitmapRequest> queue;
 
     public RequestDispatch(){
+        RequestQueue requestQueue = RequestQueue.getIstacne();
         queue = requestQueue.getQueue();
     }
 
@@ -30,12 +29,15 @@ final public class RequestDispatch extends Thread{
             try {
                 BitmapRequest request = queue.take();
                 String uriHead = request.uriHead;
-                if (uriHead.equals(DispatchConfig.FILE)){
-                    LoaderManager.getInstance().loadImageView(new LocalLoader(), request);
-                } else if (uriHead.equals(DispatchConfig.RESOURCE)){
-                    LoaderManager.getInstance().loadImageView(new ResourceLoader(), request);
-                } else {
-                    throw new IllegalArgumentException("uriHeader should be file or resource in dispatchThread!");
+                switch (uriHead) {
+                    case DispatchConfig.FILE:
+                        LoaderManager.getInstance().loadImageView(new LocalLoader(), request);
+                        break;
+                    case DispatchConfig.RESOURCE:
+                        LoaderManager.getInstance().loadImageView(new ResourceLoader(), request);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("uriHeader should be file or resource in dispatchThread!");
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

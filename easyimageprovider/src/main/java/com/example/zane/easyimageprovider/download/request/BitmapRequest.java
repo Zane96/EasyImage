@@ -20,11 +20,11 @@ import java.lang.ref.WeakReference;
 //封装的请求类型Request ,存入分发队列
 public class BitmapRequest implements Comparable<BitmapRequest>{
 
-    private EasyImageLoadRecord r;
+    private final EasyImageLoadRecord r;
     private Reference<ImageView> imageViewReference;
+    private ImageLoadPolicy policy;
 
     public String uri;
-    public ImageLoadPolicy policy;
     //非net加载的时候使用,resource/file
     public String uriHead;
     //请求ID = thread ID
@@ -97,10 +97,11 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
         if (imageViewReference == null) {
             if (other.imageViewReference != null)
                 return false;
-        } else if (!imageViewReference.get().equals(other.imageViewReference.get()))
+        } else if (!imageViewReference.get().equals(other.imageViewReference.get())){
             return false;
-        if (ID != other.ID)
+        }else if (ID != other.ID) {
             return false;
+        }
         return true;
     }
 }

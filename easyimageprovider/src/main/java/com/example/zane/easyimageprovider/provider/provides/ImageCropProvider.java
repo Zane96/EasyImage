@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
-import com.example.zane.easyimageprovider.BuildConfig;
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 import com.example.zane.easyimageprovider.provider.listener.ImageCrop;
 import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 import com.example.zane.easyimageprovider.utils.TempImageFile;
-import com.example.zane.easyimageprovider.utils.UriShemeChanger;
 
 import java.io.File;
 
@@ -57,8 +54,6 @@ public class ImageCropProvider implements ImageCrop{
             } else {
                 listener.getDataBack(Uri.fromFile(tempFile));
             }
-        } else {
-            return;
         }
     }
 }

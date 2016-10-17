@@ -1,17 +1,9 @@
 package com.example.zane.easyimageprovider.download.execute;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.example.zane.easyimageprovider.download.loader.LoaderManager;
-
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -54,7 +46,7 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
     //自定义线程工厂,设置优先级和自定义name
     private static class MyCoustomeThreadFactory implements ThreadFactory {
 
-        private String name;
+        private final String name;
         private int threadNum = 0;
 
         public MyCoustomeThreadFactory(){

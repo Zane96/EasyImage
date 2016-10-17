@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
@@ -26,7 +25,6 @@ public final class BitmapDiskCache implements ImageCache {
     private static final long DISK_CACHE_SIZE = 1024 * 1024 * 30;
     private static Context context;
     private static DiskLruCache mDiskLruCache;
-    private static BitmapDiskCache instance;
 
     private BitmapDiskCache(){
     }
@@ -51,7 +49,7 @@ public final class BitmapDiskCache implements ImageCache {
         if (mDiskLruCache == null){
             try {
                 mDiskLruCache =  DiskLruCache.open(file, getAppVersion(context),
-                        1, 10 * 1024 * 1024);
+                        1, DISK_CACHE_SIZE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -74,8 +72,8 @@ public final class BitmapDiskCache implements ImageCache {
     //将字节流组装成字符串
     private String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
+        for (byte aByte : bytes) {
+            String hex = Integer.toHexString(0xFF & aByte);
             if (hex.length() == 1) {
                 sb.append('0');
             }

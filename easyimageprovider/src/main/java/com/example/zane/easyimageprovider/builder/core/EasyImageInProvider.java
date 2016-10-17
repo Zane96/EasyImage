@@ -17,7 +17,7 @@ public final class EasyImageInProvider implements EasyImageIn {
 
     private static final String TAG = "EasyImageInProvider";
 
-    private EasyImageProvideRecord r;
+    private final EasyImageProvideRecord r;
 
     public EasyImageInProvider(ImageProviderBuilder builder) {
         r = new EasyImageProvideRecord(builder);

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
-import com.example.zane.easyimageprovider.BuildConfig;
 import com.example.zane.easyimageprovider.provider.ProviderRequestCode;
 import com.example.zane.easyimageprovider.provider.listener.ImageProvider;
 import com.example.zane.easyimageprovider.builder.EasyImageProvideRecord;
@@ -58,8 +56,6 @@ public class ImageCameraProvider implements ImageProvider{
             } else {
                 r.fragment.startActivityForResult(r.imageCrop.getIntent(context, contentUri, r.outputX, r.outputY), r.imageCrop.getRequestCode());
             }
-        } else {
-            return;
         }
     }
 }

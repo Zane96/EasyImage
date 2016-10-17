@@ -3,7 +3,6 @@ package com.example.zane.easyimageprovider.download;
 import android.app.Application;
 import android.content.Context;
 
-import com.example.zane.easyimageprovider.download.dispatch.RequestDispatch;
 import com.example.zane.easyimageprovider.download.dispatch.RequestQueue;
 import com.example.zane.easyimageprovider.download.policy.FIFOPolicy;
 import com.example.zane.easyimageprovider.download.policy.ImageLoadPolicy;
@@ -18,17 +17,17 @@ public class EasyImageLoadConfiguration {
     /**
      * 加载策略,默认先进先加载
      */
-    protected ImageLoadPolicy loadPolicy = new FIFOPolicy();
+    private ImageLoadPolicy loadPolicy = new FIFOPolicy();
 
     /**
      * 线程池线程最高数
      */
-    protected int threadCount = Runtime.getRuntime().availableProcessors() + 1;
+    private int threadCount = Runtime.getRuntime().availableProcessors() + 1;
 
     /**
      * 在Application中初始化
      */
-    protected Context mApplicationContext = null;
+    private Context mApplicationContext = null;
 
     /**
      * 保持单例
@@ -39,7 +38,7 @@ public class EasyImageLoadConfiguration {
     }
 
     private static class InstanceHolder{
-        private static EasyImageLoadConfiguration instance = new EasyImageLoadConfiguration();
+        private static final EasyImageLoadConfiguration instance = new EasyImageLoadConfiguration();
     }
 
     public static EasyImageLoadConfiguration getInstance(){

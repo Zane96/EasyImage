@@ -23,11 +23,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public final class EasyImageInLoad implements EasyImageIn {
 
-    private EasyImageLoadRecord r;
-    private ImageLoader loader;
-    private BitmapRequest request;
-    private static EasyImageInLoad instance;
-    private static ThreadPoolExecutor executor = new LoadThreadPoolExecutor("EasyImageInProvider", EasyImageLoadConfiguration.getInstance().getThreadCount());
+    private final EasyImageLoadRecord r;
+    private final BitmapRequest request;
+    private static final ThreadPoolExecutor executor = new LoadThreadPoolExecutor("EasyImageInProvider", EasyImageLoadConfiguration.getInstance().getThreadCount());
 
     private EasyImageInLoad(ImageLoadBuidler buidler) {
         r = new EasyImageLoadRecord(buidler);
@@ -51,7 +49,7 @@ public final class EasyImageInLoad implements EasyImageIn {
      * 网络加载引擎启动
      */
     private void startNetLoad(){
-        loader = new NetLoader(executor);
+        ImageLoader loader = new NetLoader(executor);
         LoaderManager.getInstance().loadImageView(loader, request);
         Log.i("EasyImageInLoad", request.ID + " ID");
     }

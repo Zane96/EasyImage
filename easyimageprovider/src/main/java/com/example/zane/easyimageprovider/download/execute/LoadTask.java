@@ -2,11 +2,8 @@ package com.example.zane.easyimageprovider.download.execute;
 
 import android.util.Log;
 
-import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
-import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 

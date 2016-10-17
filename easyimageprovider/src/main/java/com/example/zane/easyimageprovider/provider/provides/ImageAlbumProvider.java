@@ -65,8 +65,6 @@ public class ImageAlbumProvider implements ImageProvider{
             } else {
                 r.fragment.startActivityForResult(r.imageCrop.getIntent(context, data.getData(), r.outputX, r.outputY), r.imageCrop.getRequestCode());
             }
-        } else {
-            return;
         }
     }
 }

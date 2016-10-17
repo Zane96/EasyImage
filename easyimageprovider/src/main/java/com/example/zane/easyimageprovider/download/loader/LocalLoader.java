@@ -1,7 +1,5 @@
 package com.example.zane.easyimageprovider.download.loader;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
@@ -16,12 +14,10 @@ import java.io.File;
 
 public class LocalLoader implements ImageLoader{
 
-    private UIImageViewLoader loader;
-
     @Override
     public void loadImage(BitmapRequest request) {
 
-        loader = new UIImageViewLoader(request);
+        UIImageViewLoader loader = new UIImageViewLoader(request);
         loader.showLoading(null, request.placeHolderId);
         final String imagePath = Uri.parse(request.uri).getPath();
         final File imgFile = new File(imagePath);

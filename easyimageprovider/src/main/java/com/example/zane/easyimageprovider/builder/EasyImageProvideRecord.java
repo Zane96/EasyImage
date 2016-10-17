@@ -14,15 +14,13 @@ import com.example.zane.easyimageprovider.provider.listener.OnGetImageListener;
  */
 public class EasyImageProvideRecord{
 
-    private ImageProviderBuilder imageProviderBuilder;
-    private boolean isFromCrop;
-    private boolean isFromAlbum;
-    private boolean isFromCamera;
+    private final ImageProviderBuilder imageProviderBuilder;
+    private boolean isUriBack;
+
 
     public Activity activity;
     public Fragment fragment;
     public boolean isBitmapBack;
-    public boolean isUriBack;
     public int outputX;
     public int outputY;
     public ImageProvider imageProvider;
@@ -36,6 +34,11 @@ public class EasyImageProvideRecord{
     }
 
     private void initParams(){
+
+        boolean isFromCrop;
+        boolean isFromAlbum;
+        boolean isFromCamera;
+
         isFromCamera = imageProviderBuilder.isCamera;
         isFromAlbum = imageProviderBuilder.isAlbum;
 

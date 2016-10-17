@@ -10,9 +10,7 @@ import android.util.Log;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 这个请求队列中只存在加载本地图片和Resource中的图片的BitmapRequest
@@ -23,15 +21,15 @@ public class RequestQueue {
     /**
      * 优先队列
      */
-    private BlockingQueue<BitmapRequest> queue;
+    private final BlockingQueue<BitmapRequest> queue;
 
     private static final int DEFAULT_THREAD_COUNT = Runtime.getRuntime().availableProcessors() + 1;
 
     //分发线程数
-    private int mDispatchCount;
+    private final int mDispatchCount;
 
     //分发线程组
-    private RequestDispatch[] mDispatchers;
+    private final RequestDispatch[] mDispatchers;
 
     private RequestQueue(){
         queue = new PriorityBlockingQueue<>();
@@ -40,7 +38,7 @@ public class RequestQueue {
     }
 
     private static class InstanceHolder{
-        private static RequestQueue requestQueue = new RequestQueue();
+        private static final RequestQueue requestQueue = new RequestQueue();
     }
 
     public static RequestQueue getIstacne(){
