@@ -6,6 +6,7 @@ import com.example.zane.easyimageprovider.builder.EasyImageLoadRecord;
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
@@ -22,9 +23,12 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
 
     //实现和BitmapRequest一样的ID,这是为了在线程的等待对立里面仍然是一种优先级的分发任务
     private int policy;
+    //进行错位判断
+    private String url;
 
     public LoadTask(Callable<Bitmap> callable) {
         super(callable);
+
         if (!(callable instanceof ThreadPoolQueuePolicy)){
             throw new IllegalArgumentException("callable should be implements ThreadPoolQueuePolicy!");
         }
@@ -32,18 +36,22 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
         Log.i("LoadTask", policy + " ID 1");
     }
 
-    public LoadTask(Runnable runnable, Bitmap result){
-        super(runnable, result);
-        if (!(runnable instanceof Comparable)){
-            throw new IllegalArgumentException("runnable should be implements Comparable!");
-        }
-
+    public String getUrl(){
+        return url;
     }
 
+//
+//    public LoadTask(Runnable runnable, Bitmap result){
+//        super(runnable, result);
+//        if (!(runnable instanceof Comparable)){
+//            throw new IllegalArgumentException("runnable should be implements Comparable!");
+//        }
+//
+//    }
 
     @Override
     public int compareTo(LoadTask<Bitmap> another) {
-        Log.i("LoadTask", policy + " ID 2");
+        Log.i("LoadTask", policy + " " + another.policy + " ID 2");
         return EasyImageLoadConfiguration.getInstance().getLoadPolicy().compare(policy, another.policy);
     }
 

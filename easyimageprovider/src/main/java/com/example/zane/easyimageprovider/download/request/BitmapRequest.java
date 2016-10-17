@@ -43,10 +43,8 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
         policy = EasyImageLoadConfiguration.getInstance().getLoadPolicy();
         uri = r.uri;
         uriHead = r.uriHead;
-        //防止list加载乱序
-        // TODO: 16/9/24 防止乱序测试
-        imageViewReference = new WeakReference<ImageView>(r.imageView);
         r.imageView.setTag(uri);
+        imageViewReference = new WeakReference<ImageView>(r.imageView);
         cache = r.imageCache;
         errorId = r.errorId;
         placeHolderId = r.holderPlaceId;

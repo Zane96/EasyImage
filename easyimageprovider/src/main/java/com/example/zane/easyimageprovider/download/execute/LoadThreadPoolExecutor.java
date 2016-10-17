@@ -48,14 +48,7 @@ public class LoadThreadPoolExecutor extends ThreadPoolExecutor{
      */
     @Override
     protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
-        Log.i("LoadThreadPoolExecutor", "newTaskfor callable");
         return new LoadTask<>(callable);
-    }
-
-    @Override
-    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
-        Log.i("LoadThreadPoolExecutor", "newTaskfor runnable");
-        return new LoadTask<>(runnable, value);
     }
 
     //自定义线程工厂,设置优先级和自定义name

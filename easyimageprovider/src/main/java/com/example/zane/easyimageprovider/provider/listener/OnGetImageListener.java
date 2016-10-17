@@ -1,6 +1,9 @@
 package com.example.zane.easyimageprovider.provider.listener;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
+
+import java.util.List;
 
 /**
  * Created by Zane on 16/5/13.
