@@ -18,7 +18,7 @@ public class ResourceLoader implements ImageLoader{
     @Override
     public void loadImage(BitmapRequest request) {
         loader = new UIImageViewLoader(request);
-        loader.showLoading(request.placeHolderId);
+        loader.showLoading(null, request.placeHolderId);
         final Context context = EasyImageLoadConfiguration.getInstance().getmApplicationContext();
 
         if (request.uri != null){

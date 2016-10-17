@@ -22,7 +22,7 @@ public class LocalLoader implements ImageLoader{
     public void loadImage(BitmapRequest request) {
 
         loader = new UIImageViewLoader(request);
-        loader.showLoading(request.placeHolderId);
+        loader.showLoading(null, request.placeHolderId);
         final String imagePath = Uri.parse(request.uri).getPath();
         final File imgFile = new File(imagePath);
         if (!imgFile.exists()) {

@@ -1,6 +1,9 @@
 package com.example.zane.easyimageprovider.download.loader;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.icu.text.LocaleDisplayNames;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -8,12 +11,20 @@ import android.support.annotation.MainThread;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
 import com.example.zane.easyimageprovider.download.cache.ImageCache;
+import com.example.zane.easyimageprovider.download.execute.BitmapCallback;
+import com.example.zane.easyimageprovider.download.execute.ContainerDrawable;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
+import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 /**
  * Created by Zane on 16/9/25.
@@ -31,6 +42,9 @@ public class UIImageViewLoader {
     private static final int LOADING = 2;
     private static final int ERROR = 3;
     private static final int LOAD_CACHE = 4;
+
+    private static final String LOADING_ID = "loading_id";
+    private static final String LOADING_CONTAINER = "loading_container";
 
     protected UIImageViewLoader(BitmapRequest request) {
         this.request = request;
@@ -93,10 +107,13 @@ public class UIImageViewLoader {
      * 加载过程中调用,显示占位图
      * @param id
      */
-    protected void showLoading(int id){
+    protected void showLoading(Map<BitmapCallback, Future> container, int id){
         final Message message = new Message();
+        Bundle bundle = new Bundle();
         message.what = LOADING;
-        message.obj = id;
+        bundle.putInt(LOADING_ID, id);
+        bundle.putSerializable(LOADING_CONTAINER, (Serializable) container);
+        message.setData(bundle);
         handler.sendMessage(message);
     }
 
@@ -115,16 +132,17 @@ public class UIImageViewLoader {
     private final static class LoadHandler extends Handler{
 
         private ImageView imageView;
-        private SoftReference<BitmapRequest> reference;
+        private WeakReference<BitmapRequest> reference;
         private String url;
 
         public LoadHandler(BitmapRequest request){
             super(Looper.getMainLooper());
-            reference = new SoftReference<BitmapRequest>(request);
+            reference = new WeakReference<BitmapRequest>(request);
             imageView = reference.get().getImageView();
             url = reference.get().uri;
         }
 
+        //loading的时候,将map<Callable, Future>注入到loading的Drawable里面去
         @Override
         public void handleMessage(Message msg) {
             if (reference.get() != null){
@@ -134,7 +152,16 @@ public class UIImageViewLoader {
                         imageView.setImageBitmap((Bitmap)msg.obj);
                         break;
                     case LOADING:
-                        imageView.setImageResource((int)msg.obj);
+                        Bundle bundle = msg.getData();
+                        Map<BitmapCallback, Future> container = (HashMap<BitmapCallback, Future>) bundle.getSerializable(LOADING_CONTAINER);
+                        int id = bundle.getInt(LOADING_ID);
+                        if (container != null){
+                            Bitmap bitmap = BitmapFactory.decodeResource(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(), id);
+                            ContainerDrawable drawable = new ContainerDrawable(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(), bitmap, container);
+                            imageView.setImageDrawable(drawable);
+                        } else {
+                            imageView.setImageResource(id);
+                        }
                         break;
                     case ERROR:
                         imageView.setImageResource((int)msg.obj);

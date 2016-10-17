@@ -1,5 +1,7 @@
 package com.example.zane.easyimageprovider.download.execute;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -20,13 +22,14 @@ import java.util.concurrent.Future;
 
 public class ContainerDrawable extends BitmapDrawable{
 
-    private Reference<Map<Callable, Future>> container;
+    private Reference<Map<BitmapCallback, Future>> container;
 
-    public ContainerDrawable(Map<Callable, Future> containerMap){
-        container = new WeakReference<Map<Callable, Future>>(containerMap);
+    public ContainerDrawable(Resources resources, Bitmap bitmap, Map<BitmapCallback, Future> containerMap){
+        super(resources, bitmap);
+        container = new WeakReference<Map<BitmapCallback, Future>>(containerMap);
     }
 
-    public Map<Callable, Future> getContainerMap(){
+    public Map<BitmapCallback, Future> getContainerMap(){
         return container.get();
     }
 }

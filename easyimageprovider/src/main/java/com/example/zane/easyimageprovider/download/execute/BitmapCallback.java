@@ -79,4 +79,12 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
         Log.i("BitmapCallback", request.ID+" ID");
         return request.ID;
     }
+
+    /**
+     * 提供task的url
+     * @return
+     */
+    public String getTaskUrl(){
+        return request.uri;
+    }
 }
