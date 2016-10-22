@@ -63,6 +63,7 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
     }
 
     public int getImageViewWidth() {
+        //Log.i("BitmapRequestWidth", ImageViewHelper.getImageViewWidth(imageViewReference.get()) + " width");
         return ImageViewHelper.getImageViewWidth(imageViewReference.get());
     }
 

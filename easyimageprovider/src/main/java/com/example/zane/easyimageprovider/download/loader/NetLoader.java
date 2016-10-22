@@ -1,12 +1,14 @@
 package com.example.zane.easyimageprovider.download.loader;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zane.easyimageprovider.download.execute.BitmapCallback;
 import com.example.zane.easyimageprovider.download.execute.ContainerDrawable;
+import com.example.zane.easyimageprovider.download.loader.recycle.LeasedDrawable;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 
 import java.util.HashMap;
@@ -26,9 +28,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class NetLoader implements ImageLoader{
 
 
-    private Future<Bitmap> future;
+    private Future<LeasedDrawable> future;
     private final ThreadPoolExecutor executor;
-    private Bitmap bitmap;
+    private LeasedDrawable drawable;
     private UIImageViewLoader loader;
 
     private Thread startLoader;
@@ -59,39 +61,32 @@ public class NetLoader implements ImageLoader{
                     public void run() {
                         try {
                             if (!Thread.currentThread().isInterrupted()){
-                                bitmap = future.get();
+                                drawable = future.get();
                             }
                         } catch (InterruptedException e){
-                            Log.i("NetLoader", "thread intrrupt");
                             Thread.currentThread().interrupt();
                         } catch (CancellationException e){
-                            Log.i("NetLoader", "cancle computation");
                             Thread.currentThread().interrupt();
                         } catch (ExecutionException e){
                             Log.i("NetLoader", "computation error");
                         }
 
-                        Log.i("NetLoader", bitmap + " getBitmap " + request.ID);
                         if (request.getImageView() != null){
-                            if (bitmap != null){
+                            if (drawable != null){
                                 //注意,这里的bitmap已经是压缩了的
-                                loader.loadImageView(bitmap);
+                                loader.loadImageView(drawable);
                             } else {
-                                Log.i("NetLoader", "error " + request.getImageView().getTag().equals(request.uri));
                                 if (Thread.currentThread().isInterrupted()){
                                     Log.i("NetLoader", "error by thread intrrupted");
                                 } else {
                                     loader.showError(request.errorId);
                                 }
                             }
-                        } else {
-                            Log.i("NetLoader", "imageview reference is null!");
                         }
                     }
                 });
                 startLoader.start();
             } else {
-                Log.i("NetLoaderTest", "load by cache");
                 loader.loadImageViewInCache();
             }
         }
@@ -105,7 +100,7 @@ public class NetLoader implements ImageLoader{
      */
     private boolean cancelBeforeTask(String url, ImageView imageView){
         Map<BitmapCallback, Future> container = getContainer(imageView);
-        if (container != null){
+        if (container != null) {
             Iterator<BitmapCallback> it = container.keySet().iterator();
             BitmapCallback callback = it.next();
             if (callback != null){
@@ -129,6 +124,10 @@ public class NetLoader implements ImageLoader{
         Drawable drawable = imageview.getDrawable();
         if (drawable instanceof ContainerDrawable){
             return ((ContainerDrawable) drawable).getContainerMap();
+        } else if (drawable instanceof  LeasedDrawable){
+            //回收内存
+            ((LeasedDrawable) drawable).recycle();
+            Log.i("NetLoaderRecycle", " recycle");
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.example.zane.easyimageprovider.download.execute;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.example.zane.easyimageprovider.download.loader.recycle.LeasedDrawable;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
 import com.example.zane.easyimageprovider.utils.BitmapDecode;
 
@@ -18,7 +19,7 @@ import static com.example.zane.easyimageprovider.utils.BitmapDecode.InputStreamT
  * Email: zanebot96@gmail.com
  */
 
-public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
+public class BitmapCallback implements Callable<LeasedDrawable>, ThreadPoolQueuePolicy{
 
     private final BitmapRequest request;
 
@@ -27,9 +28,9 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
     }
 
     @Override
-    public Bitmap call() throws Exception {
+    public LeasedDrawable call() throws Exception {
         final URL imgURL;
-        Bitmap bitmap = null;
+        LeasedDrawable drawable = null;
         InputStream is = null;
         InputStream finalStream = null;
         InputStream inputStream = null;
@@ -49,12 +50,10 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
 
             Log.i("BitmapCallback", conn.getInputStream() + " is " + request.ID);
             //高效加载
-            bitmap = BitmapDecode.decodeRequestBitmap(inputStream, finalStream, request.getImageViewWidth(), request.getImageViewHeight());
-            //bitmap = BitmapFactory.decodeStream(is);
-            Log.i("BitmapCallback", bitmap + " bitmap");
+            drawable = BitmapDecode.decodeRequestBitmap(inputStream, finalStream, request.getImageViewWidth(), request.getImageViewHeight());
+
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("BitmapCallback", "error" + e.getMessage());
         }finally {
             if (is != null){
                 is.close();
@@ -69,12 +68,11 @@ public class BitmapCallback implements Callable<Bitmap>, ThreadPoolQueuePolicy{
                 conn.disconnect();
             }
         }
-        return bitmap;
+        return drawable;
     }
 
     @Override
     public int getPolicy() {
-        Log.i("BitmapCallback", request.ID+" ID");
         return request.ID;
     }
 

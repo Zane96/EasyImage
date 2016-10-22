@@ -3,6 +3,7 @@ package com.example.zane.easyimageprovider.download.execute;
 import android.util.Log;
 
 import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
+import com.example.zane.easyimageprovider.download.loader.recycle.LeasedDrawable;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -14,16 +15,16 @@ import java.util.concurrent.FutureTask;
 
 /**
  * 线程池中的优先级等待队列
- * @param <Bitmap>
+ * @param <LeasedDrawable>
  */
-public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<LoadTask<Bitmap>>{
+public class LoadTask<LeasedDrawable> extends FutureTask<LeasedDrawable> implements Comparable<LoadTask<LeasedDrawable>>{
 
     //实现和BitmapRequest一样的ID,这是为了在线程的等待对立里面仍然是一种优先级的分发任务
     private int policy;
     //进行错位判断
     private String url;
 
-    public LoadTask(Callable<Bitmap> callable) {
+    public LoadTask(Callable<LeasedDrawable> callable) {
         super(callable);
 
         if (!(callable instanceof ThreadPoolQueuePolicy)){
@@ -47,7 +48,7 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
 //    }
 
     @Override
-    public int compareTo(LoadTask<Bitmap> another) {
+    public int compareTo(LoadTask<LeasedDrawable> another) {
         Log.i("LoadTask", policy + " " + another.policy + " ID 2");
         return EasyImageLoadConfiguration.getInstance().getLoadPolicy().compare(policy, another.policy);
     }
@@ -55,7 +56,7 @@ public class LoadTask<Bitmap> extends FutureTask<Bitmap> implements Comparable<L
     @Override
     public boolean equals(Object o) {
         if (o instanceof LoadTask){
-            LoadTask<Bitmap> anthor = (LoadTask<Bitmap>) o;
+            LoadTask<LeasedDrawable> anthor = (LoadTask<LeasedDrawable>) o;
             return anthor.policy == policy;
         }
         return false;

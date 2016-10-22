@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.zane.easyimageprovider.builder.ImageLoadBuidler;
 import com.example.zane.easyimageprovider.builder.core.EasyImage;
 import com.example.zane.easyimageprovider.builder.core.EasyImageIn;
@@ -36,16 +37,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
         EasyImage.creat(new ImageLoadBuidler()
                                 .with(context)
                                 .load(Data.URLS[position])
                                 .setHolderPlace(R.drawable.ic_launcher)
                                 .setError(R.drawable.avatar)
-                                .useDiskCache()
+                                .useLruCache()
                                 .into(holder.mImageView)).execute();
-
+//        Glide.with(context)
+//                .load(Data.URLS[position])
+//                .placeholder(R.drawable.ic_launcher)
+//                .error(R.drawable.avatar)
+//                .into(holder.mImageView);
     }
+
+
 
     @Override
     public int getItemCount() {

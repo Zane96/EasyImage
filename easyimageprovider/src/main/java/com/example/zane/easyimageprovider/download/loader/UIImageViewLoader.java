@@ -13,7 +13,10 @@ import com.example.zane.easyimageprovider.download.EasyImageLoadConfiguration;
 import com.example.zane.easyimageprovider.download.cache.ImageCache;
 import com.example.zane.easyimageprovider.download.execute.BitmapCallback;
 import com.example.zane.easyimageprovider.download.execute.ContainerDrawable;
+import com.example.zane.easyimageprovider.download.loader.recycle.LeasedDrawable;
 import com.example.zane.easyimageprovider.download.request.BitmapRequest;
+import com.example.zane.easyimageprovider.utils.BitmapDecode;
+import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -53,8 +56,9 @@ class UIImageViewLoader {
      */
     boolean beforeLoad(){
         Log.i("UIImageViewLoader", cache + " cache");
-        if (cache.get(request.uri) != null){
-            loadImageView(cache.get(request.uri));
+        LeasedDrawable drawable = cache.get(request.uri, request.getImageViewWidth(), request.getImageViewHeight());
+        if (drawable != null){
+            loadImageView(drawable);
             return false;
         } else {
             return true;
@@ -62,13 +66,13 @@ class UIImageViewLoader {
     }
 
     /**
-     * 存入缓存
-     * @param bitmap
+     * 存入缓存。如果是存入Lru中,那么
+     * @param drawable
      */
-    private void setInCache(Bitmap bitmap){
+    private void setInCache(LeasedDrawable drawable){
         if (cache != null && request != null){
             synchronized (cache){
-                cache.put(request.uri, bitmap);
+                cache.put(request.uri, drawable);
             }
         } else {
             Log.i("UIImageViewLoader", "cache is " + cache + " request is " + request);
@@ -77,13 +81,13 @@ class UIImageViewLoader {
 
     /**
      * load完毕之后调用,用来渲染
-     * @param bitmap
+     * @param drawable
      */
-    void loadImageView(Bitmap bitmap){
-        setInCache(bitmap);
+    void loadImageView(LeasedDrawable drawable){
+        setInCache(drawable);
         final Message message = new Message();
         message.what = LOAD;
-        message.obj = bitmap;
+        message.obj = drawable;
         handler.sendMessage(message);
     }
 
@@ -92,9 +96,9 @@ class UIImageViewLoader {
      */
     void loadImageViewInCache(){
         final Message message = new Message();
-        final Bitmap bitmap = cache.get(request.uri);
+        final LeasedDrawable drawable = cache.get(request.uri, request.getImageViewWidth(), request.getImageViewHeight());
         message.what = LOAD_CACHE;
-        message.obj = bitmap;
+        message.obj = drawable;
         handler.sendMessage(message);
     }
 
@@ -124,47 +128,47 @@ class UIImageViewLoader {
         handler.sendMessage(message);
     }
 
-    private final static class LoadHandler extends Handler{
+    private final class LoadHandler extends Handler{
 
         private final ImageView imageView;
-        private final WeakReference<BitmapRequest> reference;
 
         public LoadHandler(BitmapRequest request){
             super(Looper.getMainLooper());
-            reference = new WeakReference<BitmapRequest>(request);
-            imageView = reference.get().getImageView();
+            imageView = request.getImageView();
         }
 
         //loading的时候,将map<Callable, Future>注入到loading的Drawable里面去
         @Override
         public void handleMessage(Message msg) {
-            if (reference.get() != null){
-                Log.i("UIImageViewLoader", msg.what + " what");
-                switch (msg.what){
-                    case LOAD:
-                        imageView.setImageBitmap((Bitmap)msg.obj);
-                        break;
-                    case LOADING:
-                        Bundle bundle = msg.getData();
-                        Map<BitmapCallback, Future> container = (HashMap<BitmapCallback, Future>) bundle.getSerializable(LOADING_CONTAINER);
-                        int id = bundle.getInt(LOADING_ID);
-                        if (container != null){
-                            Bitmap bitmap = BitmapFactory.decodeResource(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(), id);
-                            ContainerDrawable drawable = new ContainerDrawable(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(), bitmap, container);
-                            imageView.setImageDrawable(drawable);
-                        } else {
-                            imageView.setImageResource(id);
-                        }
-                        break;
-                    case ERROR:
-                        imageView.setImageResource((int)msg.obj);
-                        break;
-                    case LOAD_CACHE:
-                        imageView.setImageBitmap((Bitmap)msg.obj);
-                        break;
-                }
-            } else {
-                Log.i("UIImageViewLoader", "reference is null");
+            Log.i("UIImageViewLoader", msg.what + " what");
+            switch (msg.what){
+                case LOAD:
+                    LeasedDrawable drawable = (LeasedDrawable) msg.obj;
+                    //增加一个引用
+                    drawable.retain();
+                    imageView.setImageDrawable(drawable);
+                    break;
+                case LOADING:
+                    Bundle bundle = msg.getData();
+                    Map<BitmapCallback, Future> container = (HashMap<BitmapCallback, Future>) bundle.getSerializable(LOADING_CONTAINER);
+                    int id = bundle.getInt(LOADING_ID);
+                    if (container != null) {
+                        Bitmap bitmap = BitmapFactory.decodeResource(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(), id);
+                        ContainerDrawable containerDrawable = new ContainerDrawable(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(), bitmap, container);
+                        imageView.setImageDrawable(containerDrawable);
+                    } else {
+                        imageView.setImageResource(id);
+                    }
+                    break;
+                case ERROR:
+                    LeasedDrawable drawable2 = BitmapDecode.decodeRequestBitmap(EasyImageLoadConfiguration.getInstance().getmApplicationContext().getResources(),
+                            (int)msg.obj, imageView.getWidth(), imageView.getHeight());
+                    drawable2.retain();
+                    imageView.setImageDrawable(drawable2);
+                    break;
+                case LOAD_CACHE:
+                    imageView.setImageDrawable((LeasedDrawable) msg.obj);
+                    break;
             }
         }
     }

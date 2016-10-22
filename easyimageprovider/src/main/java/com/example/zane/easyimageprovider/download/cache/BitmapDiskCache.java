@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.example.zane.easyimageprovider.download.loader.recycle.LeasedDrawable;
+import com.example.zane.easyimageprovider.utils.BitmapDecode;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
@@ -108,7 +109,7 @@ public final class BitmapDiskCache implements ImageCache {
     //---------------------------------分割线-----------------------------------------------------
 
     @Override
-    public void put(String url, Bitmap bitmap) {
+    public void put(String url, LeasedDrawable drawable) {
         String key = hashKeyForDisk(url);
         try {
             if(mDiskLruCache.get(key) == null){
@@ -116,7 +117,7 @@ public final class BitmapDiskCache implements ImageCache {
                 if(editor != null) {
                     OutputStream outputStream = editor.newOutputStream(0);
                     //压缩质量
-                    if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)) {
+                    if (drawable.getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, outputStream)) {
                         editor.commit();
                     }
                     else {
@@ -131,7 +132,7 @@ public final class BitmapDiskCache implements ImageCache {
     }
 
     @Override
-    public Bitmap get(String url) {
+    public LeasedDrawable get(String url, int width, int height) {
         String key = hashKeyForDisk(url);
         try {
             if(mDiskLruCache.get(key) == null) {
@@ -140,7 +141,12 @@ public final class BitmapDiskCache implements ImageCache {
             else{
                 DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key);
                 InputStream inputStream = snapshot.getInputStream(0);
-                return BitmapFactory.decodeStream(inputStream);
+                LeasedDrawable drawable = BitmapDecode.decodeRequestBitmap(inputStream, width, height);
+
+                //增加一个引用
+                drawable.retain();
+
+                return drawable;
             }
         } catch (IOException e) {
             e.printStackTrace();
