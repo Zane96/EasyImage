@@ -42,13 +42,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                                 .load(Data.URLS[position])
                                 .setHolderPlace(R.drawable.ic_launcher)
                                 .setError(R.drawable.avatar)
-                                .useLruCache()
+                                .useDiskCache()
                                 .into(holder.mImageView)).execute();
-//        Glide.with(context)
-//                .load(Data.URLS[position])
-//                .placeholder(R.drawable.ic_launcher)
-//                .error(R.drawable.avatar)
-//                .into(holder.mImageView);
     }
 
 
