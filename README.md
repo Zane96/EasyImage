@@ -90,9 +90,10 @@ dependencies {
   缓存：你可以使用Disk缓存，Lru缓存，Disk+Lru缓存，无缓存以及自定义缓存。自定义缓存中你需要将你自己的缓存类实现**ImageCache**接口。
 
 ### 更新日志：
+-增加**BitmapPool**，优化Bitmap内存复用。
 
 - v1.0.3-beta：修复Android 24+文件共享权限修改导致的使用Intent传递File Uri报错的bug，修复RecycleView网络加载图片错位的Bug，解决思路可以参考我的这篇博客：[RecycleView加载图片错位](http://zane96.github.io/2015/11/26/%E5%85%B3%E4%BA%8ERecycleView%E6%98%BE%E7%A4%BA%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%E4%B9%B1%E5%BA%8F%E7%9A%84%E9%97%AE%E9%A2%98/)
 
-### FEEDBACK
+## FeedBack
 
 zanebot96@gmail.com
